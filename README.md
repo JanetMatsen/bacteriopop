@@ -7,7 +7,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 * Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order	Family	Genus
 
 <b> Project Goals: </b><br>
-    Visualization:
+    Visualization: <br>
       *plot something by phylogeny
 
 <b> Machine Learning: </b>
