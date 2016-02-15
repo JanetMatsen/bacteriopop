@@ -14,7 +14,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 * infer an interaction network
 * distributed predicted dynamic model
 * come up with a model for the network dynamic from 88 individual networks. <br>
-<n><hr>
+</ol><hr>
 <b> Vocabulary: </b>
 * node
 * phylogeny
