@@ -13,7 +13,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 <li> Machine Learning:</li>
 * infer an interaction network
 * distributed predicted dynamic model
-* come up with a model for the network dynamic from 88 individual networks. 
+* come up with a model for the network dynamic from 88 individual networks. <br>
 
 <b> Vocabulary: </b>
 * node
