@@ -8,7 +8,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 
 <b> Project Goals: </b><br>
     Visualization: <br>
-    * plot something by phylogeny
+    - plot something by phylogeny
 
 <b> Machine Learning: </b>
 * infer an interaction network
