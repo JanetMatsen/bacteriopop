@@ -7,14 +7,13 @@ Population dynamics for abundances calculated from meta-omics sequencing
 * Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order	Family	Genus
 
 <b> Project Goals: </b><br><ol>
-<li>Visualization: </li>
-    - plot something by phylogeny
+<li> Visualization: </li>
+* plot something by phylogeny
 
 <li> Machine Learning:</li>
 * infer an interaction network
 * distributed predicted dynamic model
-
-Come up with a model for the network dynamic from 88 individual networks. 
+* come up with a model for the network dynamic from 88 individual networks. 
 
 <b> Vocabulary: </b>
 * node
