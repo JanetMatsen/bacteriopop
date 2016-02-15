@@ -6,9 +6,9 @@ Population dynamics for abundances calculated from meta-omics sequencing
 * 88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, and 11 samples per replicate. 
 * Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order	Family	Genus
 
-<b> Project Goals: </b>
-  Visualization:
-    *plot something by phylogeny
+<b> Project Goals: </b><br>
+    Visualization:
+      *plot something by phylogeny
 
 <b> Machine Learning: </b>
 * infer an interaction network
