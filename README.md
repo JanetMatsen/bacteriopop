@@ -19,12 +19,10 @@ Population dynamics for abundances calculated from meta-omics sequencing
 <b> Vocabulary: </b><br>
 * node
 * phylogeny
-<br>
 
 <b> To-do: </b><br>
 * Papers that give context to our data. 
 * put a link to this public repo in each of our private repositories. 
-<br>
 
 <b> Why we chose the Apache License 2.0: </b>
 
