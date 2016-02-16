@@ -1,5 +1,5 @@
 <div align="justify">
-# Bacteriopop
+# BacterioPop
 Population dynamics for abundances calculated from meta-omics sequencing
 
 <b> Project Background: </b>
