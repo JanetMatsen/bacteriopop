@@ -1,1 +1,17 @@
+<b> Project Goals: </b><br><ol>
+<li> Visualization: </li>
+* plot something by phylogeny
 
+<li> Machine Learning:</li>
+* infer an interaction network
+* distributed predicted dynamic model
+* come up with a model for the network dynamic from 88 individual networks. <br>
+</ol><hr>
+
+<b> Vocabulary: </b><br>
+* node
+* phylogeny
+
+<b> To-do: </b><br>
+* Papers that give context to our data. 
+* put a link to this public repo in each of our private repositories. 
