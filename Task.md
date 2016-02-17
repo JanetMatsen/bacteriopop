@@ -1,10 +1,10 @@
-# Topic: BacterioPop
+# BacterioPop Tasks
 Population dynamics for abundances calculated from meta-omics sequencing
-## Vocabulary: 
+<b> Vocabulary: </b>
 * node : a node in a network can represent a bacteria or a group of bacteria (super node)
 * edge: an edge between two nodes in a network represents an interaction between the corresponding nodes. The edges can be time varying and be added or removed over time. 
 * phylogeny: 
-# Project Background:
+<b> Project Background:</b>
 * 88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, 11 samples per replicate, and 68000 bacteria in each sample. 
 * Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 
