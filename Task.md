@@ -16,10 +16,10 @@ Population dynamics for abundances calculated from meta-omics sequencing
 <li> Reduce sample size be removing highly correlated predictors using correlation factors (good for interpretation) or Principal Component Analysis method (good for prediction). </li> </ol>
 
 ### Infer an Interaction Network using Machine Learning Methods:<ol type = "1">
-<li> Fixed interaction network:
-    * cluster the bacterias based on their phylogeny using unsupervised learning approaches (K-means)
-    * represent the fixed network for cluster-cluster interactions with a matrix
-    * find the fixed interaction matrix by fitting the data using least square cost function </li> 
+<li> Fixed interaction network:<ol>
+    <li> cluster the bacterias based on their phylogeny using unsupervised learning approaches (K-means)
+    <li> represent the fixed network for cluster-cluster interactions with a matrix
+    <li> find the fixed interaction matrix by fitting the data using least square cost function </li> </ol>
 <li> Propose a distributed dynamic model for bacteria-bacteria interactions </li> 
 <li> Propose a state dependent interaction network:
     * define a distance function that determines the existance of interaction between the nodes. This distance function can be the euclidean distance or inverse distance between the phylogeny of two bacteria
