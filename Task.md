@@ -23,8 +23,10 @@ Population dynamics for abundances calculated from meta-omics sequencing
     <li> find the fixed interaction matrix by fitting the data using least square cost function </li> </ol>
 <li> Propose a distributed dynamic model for bacteria-bacteria interactions </li> 
 <li> Propose a state dependent interaction network:
-    * define a distance function that determines the existance of interaction between the nodes. This distance function can be the euclidean distance or inverse distance between the phylogeny of two bacteria
-    * fit the time-varying interaction matrix to the data using a stochastic regression method. </li> 
+    <ol>
+    <li> define a distance function that determines the existance of interaction between the nodes. This distance function can be the euclidean distance or inverse distance between the phylogeny of two bacteria
+    <li> fit the time-varying interaction matrix to the data using a stochastic regression method. 
+    </ol>
 <li> Propose a network dynamic based on the distributed interaction dynamics (part 2) and state-dependent network model (part 3) </li></ol></ol>
 
 # To-do: <ol type = "1">
