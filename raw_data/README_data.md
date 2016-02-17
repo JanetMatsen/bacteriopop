@@ -3,8 +3,9 @@
 ## raw_data.csv
 
 The abundances for each type of organism across samples. 
-
-Phylogenetic information: https://en.wikipedia.org/wiki/Phylum
+This 6.8 mb csv has been previously reduced from 88 other files. 
+In the process, calculations of abundance were produced. 
+Dimensionality = 64755 rows by 10 columns.
 
 | Column        | Description         | Type  |
 | ------------- |:-------------------:| -----:|
@@ -18,10 +19,14 @@ Phylogenetic information: https://en.wikipedia.org/wiki/Phylum
 | Abundacne     | that row's contribution to that sample's total DNA 
 sequences | float | 
 | project       | JGI sequencing project number | int |
+Background on phylogenetic information: https://en.wikipedia.org/wiki/Phylum
+
+Creating a reduced toy version of this data set is doable. 
 
 ## sample_meta_ino.tsv
 
 A table that summarises sample information for each sample. 
+One row per sample --> 88 rows. 
 
 | Column | Description | Type
 | ID | sample identification corresponging to project | str |
