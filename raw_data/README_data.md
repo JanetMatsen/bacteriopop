@@ -16,8 +16,7 @@ Dimensionality = 64755 rows by 10 columns.
 | Family        | phylogenetic level  | str   |
 | Genus         | phylogenetic level (most specific) | str   |
 | Length        | length of the DNA scaffold | int | 
-| Abundacne     | that row's contribution to that sample's total DNA 
-sequences | float | 
+| Abundacne     | that row's contribution to that sample's total DNA sequences | float | 
 | project       | JGI sequencing project number | int |
 Background on phylogenetic information: https://en.wikipedia.org/wiki/Phylum
 
