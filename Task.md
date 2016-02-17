@@ -3,9 +3,9 @@
 Population dynamics for abundances calculated from meta-omics sequencing
 
 <b> Vocabulary: </b>
-* node : a node in a network can represent a bacteria or a group of bacteria (super node)
-* edge: an edge between two nodes in a network represents an interaction between the corresponding nodes. The edges can be time varying and be added or removed over time. 
-* phylogeny: the evolution of a genetically related group of organisms as distinguished from the development of the individual organism
+* Node : a node in a network can represent a bacteria or a group of bacteria (super node)
+* Edge: an edge between two nodes in a network represents an interaction between the corresponding nodes. The edges can be time varying and be added or removed over time. 
+* Phylogeny: the evolution of a genetically related group of organisms as distinguished from the development of the individual organism
 
 <b> Project Background:</b>
 * 88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, 11 samples per replicate, and 68000 bacteria in each sample. 
@@ -24,14 +24,14 @@ Population dynamics for abundances calculated from meta-omics sequencing
 <li> Infer an Interaction Network using Machine Learning Methods:
     <ol type = "1">
     <li> Fixed interaction network:<ol>
-        <li> cluster the bacterias based on their phylogeny using unsupervised learning approaches (K-means)
-        <li> represent the fixed network for cluster-cluster interactions with a matrix
-        <li> find the fixed interaction matrix by fitting the data using least square cost function </ol>
+        <li> Cluster the bacterias based on their phylogeny using unsupervised learning approaches (K-means)
+        <li> Represent the fixed network for cluster-cluster interactions with a matrix
+        <li> Find the fixed interaction matrix by fitting the data using least square cost function </ol>
     <li> Propose a distributed dynamic model for bacteria-bacteria interactions.
     <li> Propose a state dependent interaction network:
         <ol>
-        <li> define a distance function that determines the existance of interaction between the nodes. This distance function can be         the euclidean distance or inverse distance between the phylogeny of two bacteria
-        <li> fit the time-varying interaction matrix to the data using a stochastic regression method. 
+        <li> Define a distance function that determines the existance of interaction between the nodes. This distance function can be         the euclidean distance or inverse distance between the phylogeny of two bacteria
+        <li> Fit the time-varying interaction matrix to the data using a stochastic regression method. 
         </ol>
     <li> Propose a network dynamic based on the distributed interaction dynamics (part 2) and state-dependent network model (part 3) 
     </ol>
