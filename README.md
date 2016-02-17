@@ -4,6 +4,8 @@ Population dynamics for abundances calculated from meta-omics sequencing
 
 <b> Project Background: </b>
 * 88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, and 11 samples per replicate. 
+* Sequenced for 11 weeks:  week 4 - 14. 
+* Oxygen conditions were switched for the last 4 samples. 
 * Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 
 <b> Directory Structure (being updated): </b>
