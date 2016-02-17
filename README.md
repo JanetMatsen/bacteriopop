@@ -10,6 +10,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 
 <b> Directory Structure (being updated): </b>
 * Task.md - Project motivation, science and engineering tasks, project vocabulary and techniques.
+* raw_data - a csv with all of the scaffolds and abundances, and a meta-info spreadseet
 
 <b> Why we chose the Apache License 2.0: </b><br>
 
