@@ -23,4 +23,9 @@ The Apache License allows us to manage the software package as we please, while 
 
 
 # Use Cases
-Yuan -- please put a few sentences here. 
+*Collect and Format row data from origin csv file
+*Process the data, clear it, pick the important features
+*Visulation of data
+*Analyse data by machine learning and train a suitable model
+
+
