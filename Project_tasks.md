@@ -2,14 +2,14 @@
 
 Population dynamics for abundances calculated from meta-omics sequencing
 
+<b> Project Background:</b>
+* 88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, 11 samples per replicate, and 68000 bacteria in each sample. 
+* Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
+
 <b> Vocabulary: </b>
 * Node : a node in a network can represent a bacteria or a group of bacteria (super node)
 * Edge: an edge between two nodes in a network represents an interaction between the corresponding nodes. The edges can be time varying and be added or removed over time. 
 * Phylogeny: the evolution of a genetically related group of organisms as distinguished from the development of the individual organism
-
-<b> Project Background:</b>
-* 88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, 11 samples per replicate, and 68000 bacteria in each sample. 
-* Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 
 <b> Project Goals: </b>
 <ol>
@@ -37,9 +37,4 @@ Population dynamics for abundances calculated from meta-omics sequencing
     </ol>
 </ol>
 
-<b> To-do: </b> 
-<ol type = "1">
-    <li> Papers that give context to our data. </li> 
-    <li> Put a link to this public repo in each of our private repositories. </li> 
-</ol>
 <hr>
