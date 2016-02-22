@@ -5,7 +5,7 @@
 
 <li>  Technology used:
 <ol>
-<li>  Scikitlearn - open source machine learning library for the Python programming language.
+<li>  Scikitlearn - open source machine learning library for the Python programming language.<a href="http://scikit-learn.org/stable/">Sci-kit learn website</a>
 <li>  Custom methods, originally tailored by Saghar.
 <li>  Standard libraries like numpy, pandas and matplotlib
 </ol>
