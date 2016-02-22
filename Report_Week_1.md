@@ -5,7 +5,7 @@
 
 <li>  Technology used:
 <ol>
-<li>  Scikitlearn - open source machine learning library for the Python programming language.
+<li>  Scikitlearn - open source machine learning library for the Python programming language. <a href="http://scikit-learn.org/stable/">Sci-kit learn website</a>
 <li>  Custom methods, originally tailored by Saghar.
 <li>  Standard libraries like numpy, pandas and matplotlib
 </ol>
@@ -28,12 +28,19 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Less emphasis on model interpretability than other open-source packages
 </ol>
 </ol>
-<b> Progress made according to schedule!</b>
+<b> Progress made: on schedule!</b>
 <ol>
 <li>  Dataset identified and approved for use (see raw_data)
 <li>  Use cases and project goals listed in Task.md
 <li>  Technology selected and cost-benefit analysis done in this document
 <li>  Questions to be answered for further steps are listed below
+</ol>
+
+<b> Tasks for upcoming week: </b>
+<ol>
+<li>  Data cleaning: throwing out data with missing labels and formatting the data from categorical values into binary values
+<li>  Convert our bacteria's labels to binary format (works for < 1000)
+<li>  Data visualization.  Correlation between bacteria. 
 </ol>
 
 <b> Food for thought: </b>
