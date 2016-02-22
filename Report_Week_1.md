@@ -1,6 +1,6 @@
 # Report Week 1 
 
-Technology review
+<b> Technology review </b>
 <ol>
 
 <li>  Technology used:
