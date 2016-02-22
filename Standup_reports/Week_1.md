@@ -36,6 +36,13 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Questions to be answered for further steps are listed below
 </ol>
 
+<b> Tasks for upcoming week: </b>
+<ol>
+<li>  Data cleaning: throwing out data with missing labels and formatting the data from categorical values into binary values
+<li>  Convert our bacteria's labels to binary format (works for < 1000)
+<li>  Data visualization.  Correlation between bacteria. 
+</ol>
+
 <b> Food for thought: </b>
 <ol>
 <li>  How do we choose which attributes of my data to include in the model?
