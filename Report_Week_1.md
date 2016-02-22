@@ -27,8 +27,8 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Steep learning curve for beginners.
 <li>  Less emphasis on model interpretability than other open-source packages
 </ol>
-
-<li>  Progress made according to schedule!
+</ol>
+<b> Progress made according to schedule!</b>
 <ol>
 <li>  Dataset identified and approved for use (see raw_data)
 <li>  Use cases and project goals listed in Task.md
@@ -36,7 +36,7 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Questions to be answered for further steps are listed below
 </ol>
 
-<li>  Food for thought:
+<b> Food for thought: </b>
 <ol>
 <li>  How do we choose which attributes of my data to include in the model?
 <li>  How do we choose which model to use?
