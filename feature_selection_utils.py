@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
+from sklearn.decomposition import PCA
 
 def calculate_features_target_correlation(data,features,target,method):
     """
@@ -31,3 +32,11 @@ def calculate_features_target_correlation(data,features,target,method):
     ax.set_xticklabels(features,rotation='vertical')
     plt.show()
     return cor
+
+def PCA_bacteria(data,n_components):
+    """
+    calculate Principal Components Analysis from data in a pandas dataframe and n_components represents the desire number of principal components
+    """
+    pca = PCA(n_components)
+    pca.fit(data)
+    return pca
