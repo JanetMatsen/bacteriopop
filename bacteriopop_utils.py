@@ -8,8 +8,8 @@ IMPORT_METAINFO_TYPES = {'ID': 'str',
                          'week': 'int',
                          'project': 'int'}
 
-FEATURES_TO_EXTRACT = ['Kingdom', 'Phylum', 'Class', 'Order', 'Family',
-                       'Genus', 'Length', 'abundance', 'project']
+FEATURES_TO_EXTRACT = ['kingdom', 'phylum', 'class', 'order', 'family',
+                       'genus', 'length', 'abundance', 'project']
 
 
 def read_sample_info():
