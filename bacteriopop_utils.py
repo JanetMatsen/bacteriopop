@@ -1,6 +1,6 @@
 import pandas as pd
 
-from sklearn.feature_extraction import DictVectorizer as DV
+from sklearn.feature_extraction import DictVectorizer
 
 IMPORT_METAINFO_TYPES = {'ID': 'str',
                          'oxy': 'str',
@@ -10,6 +10,7 @@ IMPORT_METAINFO_TYPES = {'ID': 'str',
 
 FEATURES_TO_EXTRACT = ['Kingdom', 'Phylum', 'Class', 'Order', 'Family',
                        'Genus', 'Length', 'abundance', 'project']
+
 
 def read_sample_info():
     """
@@ -70,7 +71,7 @@ def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
     #  {'Family': 'Methylophilaceae', 'Order': 'Methylophilales'}, ...
 
     # Use the sklearn vectorizer.
-    vectorizer = DV(sparse=False)
+    vectorizer = DictVectorizer(sparse=False)
     df_vectorized = vectorizer.fit_transform(df_dict)
     # note: we do not have held-out/test data!
 
