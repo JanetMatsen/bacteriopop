@@ -14,10 +14,8 @@ Scripts were written to perform these tasks:
 
 <b> Food for thought </b>
 <ol>
-<li>  How do we choose which model to use?
 <li>  How do we choose which attributes of my data to include in the model?
 <li>  How do we optimize this model for best performance?
 <li>  How do we ensure that we're building a model that will generalize to unseen data?
 <li>  Can we estimate how well my model is likely to perform on unseen data?
-<li>  How do we plan to visualize our data in an easily interpretable and intuitive way?
 </ol>
