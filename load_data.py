@@ -5,7 +5,13 @@ def load_data():
 
     """Reads two dataframes from Github source, containing sample data
      and meta data and joins them.
-     Returns one dataframe with a sampleID index"""
+     Returns one dataframe with a sampleID index
+     Input type: None
+     Output type: Pandas dataframe
+     Output dataframe index: sampleID
+     Output dataframe column labels: 'kingdom', 'phylum', 'class', 'order',
+             'family', 'genus', 'length', 'oxygen',
+             'replicate', 'week', 'abundance'"""
 
     # Reading data sets from the links provided.
     df1 = pd.read_csv("https://raw.githubusercontent.com/JanetMatsen/"
