@@ -24,9 +24,10 @@ class TestExtractFeatures(unittest.TestCase):
             fillna=True
             )
         expected_result = np.array([[0.5, 0., 1., 0., 0., 1., 25.],
-                                 [0.4, 1., 0., 0., 1., 0., 5.],
-                                 [0.1, 0., 0., 1., 1., 0., 1.]])
+                                    [0.4, 1., 0., 0., 1., 0., 5.],
+                                    [0.1, 0., 0., 1., 1., 0., 1.]])
         self.assertEqual(expected_result.tolist(), extracted.tolist())
+
 
 if __name__ == '__main__':
     unittest.main()
