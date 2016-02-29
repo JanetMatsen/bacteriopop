@@ -8,7 +8,8 @@ Scripts were written to perform these tasks:
 
 <b> Tasks for upcoming week </b>
 <ol>
-<li>
+<li>  Visualizing the data using Seaborn, pandas or matplotlib. Inspired by work on the famous Iris dataset.
+<li>  Application of machine learning algorithms for unsupervised learning and clustering such as kd-tree, k-means or Expectation maximization (EM)
 </ol>
 
 <b> Food for thought </b>
