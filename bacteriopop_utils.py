@@ -2,24 +2,9 @@ import pandas as pd
 
 from sklearn.feature_extraction import DictVectorizer
 
-IMPORT_METAINFO_TYPES = {'ID': 'str',
-                         'oxy': 'str',
-                         'rep': 'int',
-                         'week': 'int',
-                         'project': 'int'}
-
-FEATURES_TO_EXTRACT = ['kingdom', 'phylum', 'class', 'order', 'family',
-                       'genus', 'length', 'abundance', 'project']
-
-def read_sample_info():
-    """
-    Read in sample_meta_info.tsv using particular dtypes
-
-    :return: pandas dataframe with data as seen in .csv
-    """
-    return pd.read_csv('./raw_data/sample_meta_info.tsv',
-                       dtype=IMPORT_METAINFO_TYPES,
-                       sep='\t')
+FEATURES_TO_EXTRACT = ['kingdom',	'phylum', 'class', 'order',
+                       'family', 'genus', 'length', 'oxygen',
+                       'replicate', 'week', 'abundance']
 
 
 def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
