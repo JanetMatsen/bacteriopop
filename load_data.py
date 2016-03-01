@@ -15,7 +15,7 @@ def load_data():
 
     # Reading data sets from the links provided.
     df1 = pd.read_csv("https://raw.githubusercontent.com/JanetMatsen/"
-                      "bacteriopop/master/raw_data/raw_data.csv",
+                      "bacteriopop/master/raw_data/raw_data.csv", 
                       error_bad_lines=False)
     df2 = pd.read_csv('https://raw.githubusercontent.com/JanetMatsen/'
                       'bacteriopop/master/raw_data/sample_meta_info.tsv',
@@ -36,8 +36,8 @@ def load_data():
                        'Length': 'length'}, inplace=True)
     df.index.names = ['sampleID']
     # Rearranging columns so that abundance is the last column.
-    df = df[['kingdom',	'phylum',	'class', 'order',
-             'family',	'genus',	'length',	'oxygen',
+    df = df[['kingdom',	'phylum', 'class', 'order',
+             'family', 'genus', 'length', 'oxygen',
              'replicate', 'week', 'abundance']]
     return df
 
