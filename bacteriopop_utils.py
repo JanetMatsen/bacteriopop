@@ -69,9 +69,17 @@ def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
     # [{'Family': 'Methylococcaceae', 'Order': 'Methylococcales'},
     #  {'Family': 'Methylophilaceae', 'Order': 'Methylophilales'}, ...
 
-    # Use the sklearn vectorizer.
+    # Use the sklearn vectorizer to make a numpy array
     vectorizer = DictVectorizer(sparse=False)
     df_vectorized = vectorizer.fit_transform(df_dict)
+
+    # get the column names:
+    cnames = vectorizer.get_feature_names()
+
+    # make a pandas dataframe with meaningful column names
+    df_vectorized = pd.DataFrame(df_vectorized,
+                                 columns=vectorizer.get_feature_names())
+
     # note: we do not have held-out/test data!
 
     return df_vectorized
