@@ -5,6 +5,8 @@ import unittest
 import bacteriopop_utils
 
 
+print "hello!"
+
 class TestExtractFeatures(unittest.TestCase):
 
     def test_on_animal_df(self):
@@ -23,10 +25,17 @@ class TestExtractFeatures(unittest.TestCase):
             column_list=['animal', 'color', 'weight', 'abundance'],
             fillna=True
             )
+        # check that the column names match what is expcted
+        self.assertEqual(extracted.columns.tolist(),
+                         ['abundance', 'animal=cat', 'animal=dog',
+                          'animal=rat', 'color=brown', 'color=white',
+                          'weight'])
+        # check that the values are what was expected.
         expected_result = np.array([[0.5, 0., 1., 0., 0., 1., 25.],
                                     [0.4, 1., 0., 0., 1., 0., 5.],
                                     [0.1, 0., 0., 1., 1., 0., 1.]])
-        self.assertEqual(expected_result.tolist(), extracted.tolist())
+        self.assertEqual(expected_result.tolist(),
+                         extracted.as_matrix().tolist())
 
 
 if __name__ == '__main__':
