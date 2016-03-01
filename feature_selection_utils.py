@@ -15,11 +15,13 @@ def calculate_features_target_correlation(data, features, target, method):
     :type features: list of strings
     :param features: the list of features that are being analysed
     :type target: string
-    :param target: the column of data set that is treated as the output for prediction
+    :param target: the column of data set that is treated as the output for
+    prediction
     :type method: string
-    :param method: specisifes the method for finding the correlation coefficients and
-                   can be "Pearson" or "Cross-cor"
-    :return cor: a list of correlation coefficients between features and target values
+    :param method: specisifes the method for finding the correlation
+    coefficients and can be "Pearson" or "Cross-cor"
+    :return cor: a list of correlation coefficients between features and
+    target values
     """
     # target values are assigned to y
     y = data[target]
