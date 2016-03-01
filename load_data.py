@@ -39,6 +39,7 @@ def load_data():
     df = df[['kingdom',	'phylum', 'class', 'order',
              'family', 'genus', 'length', 'oxygen',
              'replicate', 'week', 'abundance']]
+    assert isinstance(df, pd.DataFrame)
     return df
 
 
