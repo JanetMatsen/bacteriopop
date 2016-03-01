@@ -49,6 +49,9 @@ def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
     :return: numpy array with all numeric values
     """
 
+    # reset index, otherwise we get only one row per sample (88 rows)
+    dataframe.reset_index(inplace=True)
+
     # Optional filling of missing values with NA.
     # If the data has missing values, they will become NaNs in the resulting
     # Numpy arrays. Therefore it's advisable to fill them in with Pandas first
