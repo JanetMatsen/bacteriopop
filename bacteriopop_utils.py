@@ -73,9 +73,6 @@ def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
     vectorizer = DictVectorizer(sparse=False)
     df_vectorized = vectorizer.fit_transform(df_dict)
 
-    # get the column names:
-    cnames = vectorizer.get_feature_names()
-
     # make a pandas dataframe with meaningful column names
     df_vectorized = pd.DataFrame(df_vectorized,
                                  columns=vectorizer.get_feature_names())
