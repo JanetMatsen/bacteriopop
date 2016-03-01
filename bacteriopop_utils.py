@@ -2,7 +2,7 @@ import pandas as pd
 
 from sklearn.feature_extraction import DictVectorizer
 
-FEATURES_TO_EXTRACT = ['kingdom',	'phylum', 'class', 'order',
+FEATURES_TO_EXTRACT = ['kingdom', 'phylum', 'class', 'order',
                        'family', 'genus', 'length', 'oxygen',
                        'replicate', 'week', 'abundance']
 
@@ -42,12 +42,12 @@ def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
     # Numpy arrays. Therefore it's advisable to fill them in with Pandas first
     if fillna:
         if debug:
-            print "dataframe before filling NA values:"
-            print dataframe
+            print("dataframe before filling NA values:")
+            print(dataframe)
         dataframe = dataframe.fillna('NA')
         if debug:
-            print "dataframe after filling NA values:"
-            print dataframe
+            print("dataframe after filling NA values:")
+            print(dataframe)
 
     # convert some columns from a data frame to a list of dicts
     cols_to_retain = column_list
