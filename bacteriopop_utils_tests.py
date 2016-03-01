@@ -25,7 +25,7 @@ class TestExtractFeatures(unittest.TestCase):
             column_list=['animal', 'color', 'weight', 'abundance'],
             fillna=True
             )
-        # check that the column names match what is expcted
+        # check that the column names match what is expected
         self.assertEqual(extracted.columns.tolist(),
                          ['abundance', 'animal=cat', 'animal=dog',
                           'animal=rat', 'color=brown', 'color=white',
