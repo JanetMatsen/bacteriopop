@@ -7,6 +7,7 @@ import bacteriopop_utils
 
 print "hello!"
 
+
 class TestExtractFeatures(unittest.TestCase):
 
     def test_on_animal_df(self):
