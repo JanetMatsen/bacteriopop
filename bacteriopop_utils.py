@@ -7,6 +7,52 @@ FEATURES_TO_EXTRACT = ['kingdom', 'phylum', 'class', 'order',
                        'replicate', 'week', 'abundance']
 
 
+def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
+                        phylo_column='genus'):
+    """
+    Return only rows where the specified phylo_colum's set of rows have at
+    least one value of abundance_column in range(low, high)
+
+    E.g. only return the genus Methylobacter if at least one sample in the
+    data has abundance over the specified `low` input.
+
+    :param data: dataframe to reduce
+    :param abundance_column: column to filter by.  Defalts to 'abundance'
+    :param phylo_column: column to grab unique values from.  Defaults to
+    'genus'.
+    :param low: lowest abundance to look for
+    :param high: highest abundance to look for (default = 1)
+    :return: dataframe
+    """
+    # todo: assert that the desired abundance and phylo columns exist.
+
+    # get a list of the phylo_column names that meet our criteria.
+    phylo_colum_values_to_keep = \
+        dataframe[(dataframe[abundance_column] <= high) &
+                  (dataframe[abundance_column] >= low)][phylo_column].unique()
+    print("first (up to) 5 phylo columns to "
+          "keep".format(phylo_colum_values_to_keep[0:5]))
+    # Return ALL rows for a phylo_column label if ANY of the rows had an
+    # abundance value in the desired range.
+    return dataframe[dataframe[phylo_column].isin(phylo_colum_values_to_keep)]
+
+
+def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
+
+    # Consider only the desired oxygen condition(s)
+    if (oxygen == "Low") or (oxygen == 'low'):
+        dataframe = dataframe[dataframe['oxygen'] == 'Low']
+    if (oxygen == "High") or (oxygen=="high"):
+        dataframe = dataframe[dataframe['oxygen'] == 'High']
+    # todo: make sure only the right oxygen condition was selected.
+    # Reduce to interesting abundance rows, using the min_abundance threshold.
+    return filter_by_abundance(dataframe=dataframe,
+                               abundance_column='abundance',
+                               low=min_abundance,
+                               high=1,
+                               phylo_column=phylo_column)
+
+
 def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
                      fillna=True, debug=False):
     """
