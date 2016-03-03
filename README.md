@@ -12,6 +12,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 * [Tehcnology Review Presentation](https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17)
 
 <b> Directory Structure:
+
 <img src="https://raw.githubusercontent.com/JanetMatsen/bacteriopop/master/maker_files/directory_structure.png" alt="Bacteriopop directory structure">
 </b>
 
