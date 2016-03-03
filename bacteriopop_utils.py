@@ -31,7 +31,7 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
         dataframe[(dataframe[abundance_column] <= high) &
                   (dataframe[abundance_column] >= low)][phylo_column].unique()
     print("first (up to) 5 phylo columns to "
-          "keep".format(phylo_colum_values_to_keep[0:5]))
+          "keep: {}".format(phylo_colum_values_to_keep[0:5]))
     # Return ALL rows for a phylo_column label if ANY of the rows had an
     # abundance value in the desired range.
     return dataframe[dataframe[phylo_column].isin(phylo_colum_values_to_keep)]
@@ -42,7 +42,7 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
     # Consider only the desired oxygen condition(s)
     if (oxygen == "Low") or (oxygen == 'low'):
         dataframe = dataframe[dataframe['oxygen'] == 'Low']
-    if (oxygen == "High") or (oxygen=="high"):
+    if (oxygen == "High") or (oxygen == "high"):
         dataframe = dataframe[dataframe['oxygen'] == 'High']
     # todo: make sure only the right oxygen condition was selected.
     # Reduce to interesting abundance rows, using the min_abundance threshold.
@@ -51,6 +51,44 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
                                low=min_abundance,
                                high=1,
                                phylo_column=phylo_column)
+
+
+def break_apart_experiments(dataframe):
+    # Break apart the high/low O2 rows.  Also break fof replicates.
+    # Fill fill them into a dictionary.  Keys are tuples that specify
+    # (oxygen, replicate).  Values are dictionaries that correspond to that
+    # subset of data.
+    dataframe_dict = {}
+    for descriptive_tuple, gb_df in dataframe.groupby(by=['oxygen',
+                                                          'replicate']):
+        print descriptive_tuple
+        dataframe_dict[descriptive_tuple] = gb_df
+    print 'dictionary keys: {}'.format(dataframe_dict.keys())
+    return dataframe_dict
+
+
+def pivot_for_abundance_matrix(dataframe):
+    # for each dataframe in the dictionary, pivot them so abundance is the
+    # value in the matrix.  Rows are phylogeny.  Columns are week.
+    # todo: Can use this to check that we have the right number of unique
+    # oxygen/rep/week combos:
+    # first_df[['oxygen', 'replicate', 'week']].drop_duplicates()
+    # todo: add support for other pivot columns.  Ideally multiple indices.
+    return dataframe.pivot(index='genus', columns='week', values='abundance')
+
+
+def prepare_DMD_matrices(dataframe, groupby_level):
+    # Break apart oxygen and replicates.
+    dataframe_dict = break_apart_experiments(dataframe)
+    # for each dataframe in the dictionary, pivot them so abundance is the
+    # value in the matrix.  Rows are phylogeny.  Columns are week.
+    for descriptive_tuple, df in dataframe_dict.iteritems():
+        dataframe_dict[descriptive_tuple] = pivot_for_abundance_matrix(df)
+    # check that it worked
+    for df in dataframe_dict.itervalues():
+        print df.head(2)
+    # We can do DMD on each of the dataframes inside this dict.
+    return dataframe_dict
 
 
 def extract_features(dataframe, column_list=FEATURES_TO_EXTRACT,
