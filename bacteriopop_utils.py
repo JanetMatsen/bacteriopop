@@ -38,7 +38,7 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
 
 
 def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
-
+    # todo: fill NA values as "other"?
     # Consider only the desired oxygen condition(s)
     if (oxygen == "Low") or (oxygen == 'low'):
         dataframe = dataframe[dataframe['oxygen'] == 'Low']
