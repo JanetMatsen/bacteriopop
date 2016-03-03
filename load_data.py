@@ -40,6 +40,7 @@ def load_data():
              'family', 'genus', 'length', 'oxygen',
              'replicate', 'week', 'abundance']]
     assert isinstance(df, pd.DataFrame)
+    # todo?  fill NA values as "other"?
     return df
 
 
