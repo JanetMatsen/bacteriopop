@@ -74,6 +74,8 @@ def pivot_for_abundance_matrix(dataframe):
     # oxygen/rep/week combos:
     # first_df[['oxygen', 'replicate', 'week']].drop_duplicates()
     # todo: add support for other pivot columns.  Ideally multiple indices.
+    # todo: when pivoting on genus, error is thrown.  Is "other" having too
+    # many rows?  Need to aggregate better first? JM 160302
     return dataframe.pivot(index='genus', columns='week', values='abundance')
 
 
