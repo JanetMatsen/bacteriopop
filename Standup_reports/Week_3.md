@@ -12,6 +12,7 @@
 
 <b> Progress: </b>
 <ol>
+<li>    Reducing the size of our data, for ease of use with machine learning methods
 <li>    Work on scripts to perform clustering by kd-tree, Gaussian Mixture models and DBSCAN 
 <li>    Work on scripts to calculate the interaction matrix
 <li>    Work on demo notebooks of bacteriopop
