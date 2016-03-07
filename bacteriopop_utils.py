@@ -77,6 +77,8 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
 
 
 def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
+    # note: we are aggregating on phylo level *before* filtering by
+    # abundance.  This choice impacts the output!
     # todo: fill NA values as "other"?
     # Consider only the desired oxygen condition(s)
     if (oxygen == "Low") or (oxygen == 'low'):
@@ -84,20 +86,22 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
     if (oxygen == "High") or (oxygen == "high"):
         dataframe = dataframe[dataframe['oxygen'] == 'High']
     # todo: make sure only the right oxygen condition was selected.
+
+    # aggregate on the desired phylogenetic level.
+    dataframe = aggregate_on_phylo_level(dataframe=dataframe,
+                                         phylo_level=phylo_column)
+    dataframe.reset_index(inplace=True)
+    print "columns after aggregating on phylo level: {}".format(dataframe.columns)
     # Reduce to interesting abundance rows, using the min_abundance threshold.
-    dataframe = filter_by_abundance(dataframe=dataframe,
+    return filter_by_abundance(dataframe=dataframe,
                                abundance_column='abundance',
                                low=min_abundance,
                                high=1,
                                phylo_column=phylo_column)
-    # aggregate on the desired phylogenetic level.
-    return aggregate_on_phylo_level(dataframe=dataframe,
-                                    phylo_level=phylo_column)
-
 
 
 def break_apart_experiments(dataframe):
-    # Break apart the high/low O2 rows.  Also break fof replicates.
+    # Break apart the high/low O2 rows.  Also break up replicates.
     # Fill fill them into a dictionary.  Keys are tuples that specify
     # (oxygen, replicate).  Values are dictionaries that correspond to that
     # subset of data.
@@ -110,16 +114,33 @@ def break_apart_experiments(dataframe):
     return dataframe_dict
 
 
+def concat_phylo_columns(dataframe):
+    dataframe['phylo_concat'] = ''
+    for colname in ['kingdom', 'phylum', 'class', 'order', 'family', 'genus']:
+        if colname in dataframe.columns:
+            if colname is not 'kingdom':
+                # todo: could also check for string != '' so we don't get
+                # names like 'Archaea,,,'
+                dataframe['phylo_concat'] = \
+                    dataframe['phylo_concat'].astype(str) + ','
+            dataframe['phylo_concat'] = dataframe['phylo_concat'].astype(str) + \
+                                        dataframe[colname]
+            dataframe.drop(colname, axis=1, inplace=True)
+        else:
+            return dataframe
+
+
 def pivot_for_abundance_matrix(dataframe):
-    # for each dataframe in the dictionary, pivot them so abundance is the
-    # value in the matrix.  Rows are phylogeny.  Columns are week.
+    # pivot dataframe so abundance is the value in the matrix.
+    # Rows are phylogeny.  Columns are week.
     # todo: Can use this to check that we have the right number of unique
     # oxygen/rep/week combos:
     # first_df[['oxygen', 'replicate', 'week']].drop_duplicates()
-    # todo: add support for other pivot columns.  Ideally multiple indices.
-    # todo: when pivoting on genus, error is thrown.  Is "other" having too
-    # many rows?  Need to aggregate better first? JM 160302
-    return dataframe.pivot(index='genus', columns='week', values='abundance')
+
+    # aggregate on all levels of phylo_level present:
+    dataframe = concat_phylo_columns(dataframe)
+    return dataframe.pivot(index='phylo_concat', columns='week',
+                           values='abundance')
 
 
 def prepare_DMD_matrices(dataframe, groupby_level):
