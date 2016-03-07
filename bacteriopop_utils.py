@@ -33,10 +33,17 @@ def aggregate_on_phylo_level(dataframe, phylo_level):
     # dropp all phylo_levels below the specified one.
 
     # Groupby the project (includes week, O2)
+    if 'length' in dataframe.columns:
+        dataframe.drop('length', axis=1, inplace=True)
     groupby_levels = ['oxygen', 'replicate', 'week'] + \
                      phylo_levels_above(phylo_level) + [phylo_level]
-
     return dataframe.groupby(groupby_levels).sum()
+
+
+def check_abundances_sums(dataframe):
+    # todo: make a function that checks that each sample's abundances sum to
+#  1.
+    pass
 
 
 def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
@@ -78,11 +85,15 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
         dataframe = dataframe[dataframe['oxygen'] == 'High']
     # todo: make sure only the right oxygen condition was selected.
     # Reduce to interesting abundance rows, using the min_abundance threshold.
-    return filter_by_abundance(dataframe=dataframe,
+    dataframe = filter_by_abundance(dataframe=dataframe,
                                abundance_column='abundance',
                                low=min_abundance,
                                high=1,
                                phylo_column=phylo_column)
+    # aggregate on the desired phylogenetic level.
+    return aggregate_on_phylo_level(dataframe=dataframe,
+                                    phylo_level=phylo_column)
+
 
 
 def break_apart_experiments(dataframe):
