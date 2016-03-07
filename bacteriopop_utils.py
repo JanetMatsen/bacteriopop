@@ -7,6 +7,38 @@ FEATURES_TO_EXTRACT = ['kingdom', 'phylum', 'class', 'order',
                        'replicate', 'week', 'abundance']
 
 
+def phylo_levels_below(phylo_level):
+    """
+    E.g. 'order' --> ['family', 'genus']
+    """
+    p_levels = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus']
+    position_of_phylo_level = p_levels.index(phylo_level)
+    return p_levels[position_of_phylo_level + 1:]
+
+
+def phylo_levels_above(phylo_level):
+    """
+    E.g. 'order' --> ['kingdom', 'phylum', 'class']
+    """
+    p_levels = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus']
+    position_of_phylo_level = p_levels.index(phylo_level)
+    return p_levels[0:position_of_phylo_level]
+
+
+def aggregate_on_phylo_level(dataframe, phylo_level):
+    # If you pass ['kingdom', 'phylum', 'class'], it will return a
+    # dataframe with only those phylo levels specified and all lower levels
+    # All abundances for that set of phylo levels is aggregated and the
+    # abundances for each condtion are summed.
+    # dropp all phylo_levels below the specified one.
+
+    # Groupby the project (includes week, O2)
+    groupby_levels = ['oxygen', 'replicate', 'week'] + \
+                     phylo_levels_above(phylo_level) + [phylo_level]
+
+    return dataframe.groupby(groupby_levels).sum()
+
+
 def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
                         phylo_column='genus'):
     """
@@ -85,7 +117,12 @@ def prepare_DMD_matrices(dataframe, groupby_level):
     # for each dataframe in the dictionary, pivot them so abundance is the
     # value in the matrix.  Rows are phylogeny.  Columns are week.
     for descriptive_tuple, df in dataframe_dict.iteritems():
-        dataframe_dict[descriptive_tuple] = pivot_for_abundance_matrix(df)
+        # workaround trouble with multiple phylogeny columns leading to
+        # 'genus' = ''  (was 'other')
+        # since we aren't going to use other columns, ditch them.
+        df = aggregate_on_phylo_level(dataframe =
+                                      dataframe_dict[descriptive_tuple],
+                                     phylo_level=groupby_level)
     # check that it worked
     for df in dataframe_dict.itervalues():
         print df.head(2)

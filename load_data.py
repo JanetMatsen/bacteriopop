@@ -21,6 +21,10 @@ def load_data():
                       'bacteriopop/master/raw_data/sample_meta_info.tsv',
                       sep='\t')
     df2 = df2.set_index(df2['project'])
+    # fill the Nas id df1 as ".  Makes the groupbys behave better.
+    df1.fillna('', inplace=True)
+    # repleace 'genus' = 'other' with an empty string to be consistent.
+    df1.replace(to_replace='other', value='', inplace=True)
     # Removing duplicate columns.
     del df2['project']
     del df2['ID']
