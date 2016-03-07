@@ -1,27 +1,27 @@
-**Report Week 3**
+# Report Week 3
 
-**Technology review**
+<b> Technology review </b>
+<ol>
+<li>    NetworkX: Creation, manipulation, and study of the structure, dynamics, and functions of complex networks.
+<li>    Graph-tool: Python module for manipulation and statistical analysis of networks.
+<li>    Gaussian Mixture Model (GMM): A parametric probability density function represented as a weighted sum of Gaussian component densities.
+<li>    Density-based spatial clustering of applications with noise (DBSCAN): Given a set of points in some space, it groups together points with many nearby neighbors, marking as outliers points whose nearest neighbors are too far away.
+<li>    Dynamic Modal Decompostion: A dimensionality reduction algorithm. Given a time series of data, DMD computes an interaction matrix of decay/growth rates.
+<li>    kd-tree: For quick nearest-neighbor lookup. This class provides an index into a set of k-dimensional points which can be used to rapidly look up the nearest neighbors of any point, provided the neighbors are indexed.
+</ol>
 
-1. Modred - Compute modal decompositions and reduced-order models easily, efficiently, and in parallel. 
-2. NetworkX - Creation, manipulation, and study of the structure, dynamics, and functions of complex networks.
-3. Graph_tool - Python module for manipulation and statistical analysis of networks.
+<b> Progress: </b>
+<ol>
+<li>    Work on scripts to perform clustering by kd-tree, Gaussian Mixture models and DBSCAN 
+<li>    Work on scripts to calculate the interaction matrix
+<li>    Work on demo notebooks of bacteriopop
+<li>    Addition of more unit-tests.
+<li>    Designing directory structure.
+<li>    Tackling sparse data
+</ol>
 
-- **Algorithm Review** 
-    1. GMM - A Gaussian Mixture Model (GMM) is a parametric probability density function represented as a weighted sum of Gaussian component densities.
-    2. DBSCAN - a density-based clustering algorithm: given a set of points in some space, it groups together points that are closely packed together (points with many nearby neighbors), marking as outliers points that lie alone in low-density regions (whose nearest neighbors are too far away)
-    3. DMD - a dimensionality reduction algorithm developed by Peter Schmid in 2008. Given a time series of data, DMD computes a set of modes each of which is associated with a fixed oscillation frequency and decay/growth rate.
-
-**Progress made according to schedule**
-
-1. Demo - new file to test functions about loading data, PAC reduction
-2. utils - add new functions to filt/prepare data
-3. Driver - new file to run assembled functions
-4. GMM_demo - new file to analyze data by Gaussian Mixture Model
-5. DBscan - new file to analyze data by DBSCAN
-6. DMD_demo - new file to analyze data by dynamic mode decomposition
-
-**Tasks for upcoming week:**
-
-1. Machine Lerning to analyse our data
-2. Understanding feature interactions 
-3. Data visualization.
+<b> Tasks for upcoming week </b>
+<ol>
+<li>  Completion of all code, debugging, PEP-8 compliance, documentation, performance metrics, building narrative of project and creating a poster for presentation.
+<li>  Visualizing the data using Seaborn, pandas or matplotlib. 
+</ol>
