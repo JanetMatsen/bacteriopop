@@ -1,4 +1,5 @@
 import pandas as pd
+import load_data
 
 from sklearn.feature_extraction import DictVectorizer
 
@@ -143,21 +144,32 @@ def pivot_for_abundance_matrix(dataframe):
                            values='abundance')
 
 
-def prepare_DMD_matrices(dataframe, groupby_level):
+def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
+    dataframe = load_data.load_data()
+    dataframe = reduce_data(dataframe=dataframe,
+                            min_abundance=min_abundance,
+                            phylo_column=phylo_column,
+                            oxygen=oxygen)
+    # TODO: fillna not working!
+    dataframe.fillna(0, inplace=True)
+    dataframe.reset_index(inplace=True)
     # Break apart oxygen and replicates.
     dataframe_dict = break_apart_experiments(dataframe)
     # for each dataframe in the dictionary, pivot them so abundance is the
     # value in the matrix.  Rows are phylogeny.  Columns are week.
-    for descriptive_tuple, df in dataframe_dict.iteritems():
-        # workaround trouble with multiple phylogeny columns leading to
-        # 'genus' = ''  (was 'other')
-        # since we aren't going to use other columns, ditch them.
-        df = aggregate_on_phylo_level(dataframe =
-                                      dataframe_dict[descriptive_tuple],
-                                     phylo_level=groupby_level)
+    print "dataframe_dict.keys(): {}".format(dataframe_dict.keys())
+    for descriptive_tuple, df in dataframe_dict.items():
+        # todo: make sure oxygen and replicate values are homogeneous within
+        #  this df
+        assert len(df.oxygen.unique()) == 1, 'oxygen condition not uniform ' \
+                                             'in this grouby dataframe.'
+        assert len(df.week.unique()) == 11, 'wrong number of weeks.  ' \
+                                              'Expected 11.'
+        pivoted_df = pivot_for_abundance_matrix(df)
+        print pivoted_df.head()
+        dataframe_dict[descriptive_tuple] = pivoted_df
     # check that it worked
-    for df in dataframe_dict.itervalues():
-        print df.head(2)
+    # todo: add a sensible assertion.
     # We can do DMD on each of the dataframes inside this dict.
     return dataframe_dict
 
