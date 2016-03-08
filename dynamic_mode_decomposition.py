@@ -20,6 +20,7 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
     # snapshots of samples over 11 weeks
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
+    nodes_list={}
     for descriptive_tuple in snapshots.keys():
         df = snapshots[descriptive_tuple]
         data = df.values
@@ -39,7 +40,8 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
         A = np.dot(Y, pseu_inv_x)
         # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
         linear_mappings[descriptive_tuple] = A
-    return linear_mappings
+        nodes_list[descriptive_tuple] = list(df.index)
+    return linear_mappings, nodes_list
 
 def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     '''
@@ -56,6 +58,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     # snapshots of samples over 11 weeks
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
+    nodes_list={}
     for descriptive_tuple in snapshots.keys():
         df = snapshots[descriptive_tuple]
         data = df.values
@@ -75,8 +78,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
             # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
-            key= descriptive_tuple + ('Week '+ str(time+1),)
+            key = descriptive_tuple + ('Week '+ str(time+1),)
             linear_mappings[key] = A
-    return linear_mappings
-
-find_temporal_adjacency_matrix(0, None, False)
+            nodes_list[key] = list(df.index)
+    return linear_mappings, nodes_list
