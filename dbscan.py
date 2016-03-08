@@ -2,10 +2,7 @@ import random
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn import metrics
 from sklearn.cluster import DBSCAN
-from sklearn.datasets import make_blobs
-from sklearn.preprocessing import StandardScaler
 
 
 def get_random_color(pastel_factor=0.5):
@@ -31,15 +28,10 @@ def generate_new_color(existing_colors, pastel_factor=0.5):
     return best_color
 
 
-def dbscan(eps=0.2, min_samples=10):
-
-    # Generate sample data.
-    centers = [[1, 1], [-1, -1], [1, -1]]
-    df, labels_true = make_blobs(n_samples=750, centers=centers, cluster_std=0.4, random_state=0)
-    df = StandardScaler().fit_transform(df)
+def dbscan(dataframe, eps=0.2, min_samples=10):
 
     # Compute DBSCAN.
-    db = DBSCAN(eps, min_samples).fit(df)
+    db = DBSCAN(eps, min_samples).fit(dataframe)
     core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
     core_samples_mask[db.core_sample_indices_] = True
     labels = db.labels_
@@ -48,7 +40,7 @@ def dbscan(eps=0.2, min_samples=10):
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
 
     print('Estimated number of clusters: %d' % n_clusters_)
-    print('Homogeneity: %0.3f'
+    """ print('Homogeneity: %0.3f'
           % metrics.homogeneity_score(labels_true, labels))
     print('Completeness: %0.3f'
           % metrics.completeness_score(labels_true, labels))
@@ -59,7 +51,7 @@ def dbscan(eps=0.2, min_samples=10):
     print('Adjusted Mutual Information: %0.3f'
           % metrics.adjusted_mutual_info_score(labels_true, labels))
     print('Silhouette Coefficient: %0.3f'
-          % metrics.silhouette_score(df, labels))
+          % metrics.silhouette_score(df, labels))"""
 
     # Plot result.
     # Black removed and is used for noise instead.
@@ -74,19 +66,12 @@ def dbscan(eps=0.2, min_samples=10):
             col = 'k'
 
         class_member_mask = (labels == k)
-        xy = df[class_member_mask & core_samples_mask]
+        xy = dataframe[class_member_mask & core_samples_mask]
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=col,
                  markeredgecolor='k', markersize=14)
-        xy = df[class_member_mask & ~core_samples_mask]
+        xy = dataframe[class_member_mask & ~core_samples_mask]
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=col,
                  markeredgecolor='k', markersize=6)
 
     plt.title('Estimated number of clusters %d' % n_clusters_)
     plt.show()
-
-
-def main():
-    return dbscan()
-
-if __name__ == "__main__":
-    main()
