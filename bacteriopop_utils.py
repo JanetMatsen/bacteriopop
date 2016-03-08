@@ -150,8 +150,7 @@ def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
                             min_abundance=min_abundance,
                             phylo_column=phylo_column,
                             oxygen=oxygen)
-    # TODO: fillna not working!
-    dataframe.fillna(0, inplace=True)
+    dataframe = dataframe.fillna(0)
     dataframe.reset_index(inplace=True)
     # Break apart oxygen and replicates.
     dataframe_dict = break_apart_experiments(dataframe)
