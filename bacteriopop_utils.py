@@ -150,7 +150,6 @@ def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
                             min_abundance=min_abundance,
                             phylo_column=phylo_column,
                             oxygen=oxygen)
-    dataframe = dataframe.fillna(0)
     dataframe.reset_index(inplace=True)
     # Break apart oxygen and replicates.
     dataframe_dict = break_apart_experiments(dataframe)
@@ -165,6 +164,7 @@ def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
         assert len(df.week.unique()) == 11, 'wrong number of weeks.  ' \
                                               'Expected 11.'
         pivoted_df = pivot_for_abundance_matrix(df)
+        pivoted_df = pivoted_df.fillna(0)
         print pivoted_df.head()
         dataframe_dict[descriptive_tuple] = pivoted_df
     # check that it worked
