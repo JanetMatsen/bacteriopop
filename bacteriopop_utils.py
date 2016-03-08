@@ -67,14 +67,14 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
     # todo: assert that the desired abundance and phylo columns exist.
 
     # get a list of the phylo_column names that meet our criteria.
-    phylo_colum_values_to_keep = \
+    phylo_column_values_to_keep = \
         dataframe[(dataframe[abundance_column] <= high) &
                   (dataframe[abundance_column] >= low)][phylo_column].unique()
     print("first (up to) 5 phylo columns to "
-          "keep: {}".format(phylo_colum_values_to_keep[0:5]))
+          "keep: {}".format(phylo_column_values_to_keep[0:5]))
     # Return ALL rows for a phylo_column label if ANY of the rows had an
     # abundance value in the desired range.
-    return dataframe[dataframe[phylo_column].isin(phylo_colum_values_to_keep)]
+    return dataframe[dataframe[phylo_column].isin(phylo_column_values_to_keep)]
 
 
 def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
