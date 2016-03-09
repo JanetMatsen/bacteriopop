@@ -70,8 +70,8 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
     phylo_column_values_to_keep = \
         dataframe[(dataframe[abundance_column] <= high) &
                   (dataframe[abundance_column] >= low)][phylo_column].unique()
-    print("first (up to) 5 phylo columns to "
-          "keep: {}".format(phylo_column_values_to_keep[0:5]))
+    print "first (up to) 5 phylo columns to "
+    print "keep: {}".format(phylo_column_values_to_keep[0:5])
     # Return ALL rows for a phylo_column label if ANY of the rows had an
     # abundance value in the desired range.
     return dataframe[dataframe[phylo_column].isin(phylo_column_values_to_keep)]
