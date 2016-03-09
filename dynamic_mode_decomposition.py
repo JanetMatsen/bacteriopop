@@ -6,10 +6,11 @@ from bacteriopop_utils import prepare_DMD_matrices
 
 
 def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
-    '''
+    """
     This function find the adjacency matrix among clusters of bacteria over
-    the 11 weeks of sampling assuming the interaction between clusters is fixed.
-    '''
+    the 11 weeks of sampling assuming the interaction between clusters is
+    fixed.
+    """
     # Default values
     if min_abundance is None:
         min_abundance = 0
@@ -20,7 +21,7 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
     # snapshots of samples over 11 weeks
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
-    nodes_list={}
+    nodes_list = {}
     for descriptive_tuple in snapshots.keys():
         df = snapshots[descriptive_tuple]
         data = df.values
@@ -35,7 +36,8 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
             S[:len(s), :len(s)] = np.diag(s)
         else:  # faster
             S = np.diag(s)
-        pseu_inv_x = np.dot(np.linalg.inv(V), np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
+        pseu_inv_x = np.dot(np.linalg.inv(V),
+                            np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
         # Adjacency matrix between clusters
         A = np.dot(Y, pseu_inv_x)
         # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
@@ -43,11 +45,12 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
         nodes_list[descriptive_tuple] = list(df.index)
     return linear_mappings, nodes_list
 
+
 def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
-    '''
+    """
     This function find the adjacency matrix among clusters of bacteria from
     week to week assuming the interaction between clusters is changing.
-    '''
+    """
     # Default values
     if min_abundance is None:
         min_abundance = 0
@@ -58,7 +61,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     # snapshots of samples over 11 weeks
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
-    nodes_list={}
+    nodes_list = {}
     for descriptive_tuple in snapshots.keys():
         df = snapshots[descriptive_tuple]
         data = df.values
@@ -74,11 +77,12 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
                 S[:len(s), :len(s)] = np.diag(s)
             else:  # faster
                 S = np.diag(s)
-            pseu_inv_x = np.dot(np.linalg.inv(V), np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
+            pseu_inv_x = np.dot(np.linalg.inv(V),
+                                np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
             # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
-            key = descriptive_tuple + ('Week '+ str(time+1),)
+            key = descriptive_tuple + ('Week ' + str(time+1),)
             linear_mappings[key] = A
             nodes_list[key] = list(df.index)
     return linear_mappings, nodes_list
