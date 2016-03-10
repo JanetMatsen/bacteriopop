@@ -1,5 +1,5 @@
-<div align="justify">
 # Report Week 2
+<div align="justify">
 
 <b> Progress </b>
 <ol>
@@ -16,7 +16,7 @@ Scripts were written to perform these tasks:
 <li>  Application of machine learning algorithms for unsupervised learning and clustering such as kd-tree, k-means or Expectation maximization (EM)
 </ol>
 
-<b> Food for thought </b>
+<b> Challenges </b>
 <ol>
 <li>  How do we choose which attributes of my data to include in the model?
 <li>  How do we optimize this model for best performance?
