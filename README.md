@@ -3,18 +3,21 @@
 Population dynamics for abundances calculated from meta-omics sequencing
 
 <b> Project Background: </b>
-* 88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, and 11 samples per replicate. 
-* Sequenced for 11 weeks:  week 4 - 14. 
-* Oxygen conditions were switched for the last 4 samples. 
-* Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
+<ol>
+<li>    88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, and 11 samples per replicate. 
+<li>    Sequenced for 11 weeks:  week 4 - 14. 
+<li>    Oxygen conditions were switched for the last 4 samples. 
+<li>    Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
+</ol>
 
-<b> Tools Used: </b>
-* ___  (DMD): (insert definition here). 
+<b> Tools: </b>
 
-
-<b> Outputs: </b>
-* ___  ("A" matrices) 
-
+|<p align="center"> Name| <p align="center">Source package | <p align="center">Description | <p align="center"> Output  |
+| ----------------------- |:--------------------------------:| -----------------------------:| -------------------------: |
+|  <p align="left"> Dynamic Mode Decomposition (DMD)| <p align="center">Python modred|<p align="left"> Dimensionality reduction algorithm for a time series of data that computes a set of modes each of which is associated with a fixed oscillation frequency and decay/growth rate | <p align="left">Matrix of interaction values A for every sample, either computed for every time step or bulked over time |
+| <p align="left">  NetworkX| <p align="center"> Third party library NetworkX|<p align="left">Software package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks|<p align="left"> Classic graphs, random graphs, and synthetic networks with any kind of node (e.g. text, images, XML records) and edges holding arbitrary data (e.g. weights, time-series) |
+| <p align="left">  Density-based spatial clustering of applications with noise (DBSCAN)| <p align="center"> Python scikit-learn| <p align="left">Density-based data clustering algorithm that groups together points that are closely packed together, marking as outliers points that lie alone in low-density regions| <p align="left">Clusters of data points with performance metrics|
+|  <p align="left"> Gaussian Mixture Models (GMM)|   <p align="center"> Python scikit-learn|<p align="left">Parametric probability density function that generates all data points from weighted sum of Gaussian component densities with unknown parameters|  <p align="left">Clusters of data points with performance metrics|
 
 <b> Technology Review: </b>
 * [Tehcnology Review Presentation](https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17)
