@@ -178,6 +178,9 @@ def aggregate_adjacency_matrix_over_replicates(mappings):
     #concatenate the data frames across replicates since they have different dimensions across replicates
     pd_high_rep = pd.concat(high_rep_mappings)
     pd_low_rep = pd.concat(low_rep_mappings)
+    # fill the missing values in the concatenated matrix by 0
+    pd_high_rep.fillna(0)
+    pd_low_rep.fillna(0)
     # todo: double check if it's using the right functionality of pandas
     # find the element by element average of adjacency matrix over replicates of high/low O2
     avg_mappings['High'] = pd_high_rep.groupby(level=0).mean()
