@@ -154,11 +154,32 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     return linear_mappings, nodes_list
 
 
-def aggregate_adjacency_matrix_over_samples(mappings):
+def aggregate_adjacency_matrix_over_replicates(mappings):
     """
-    :param mappings: a python dictionary that contains the adjacency matrices for all
-                     8 samples including 4 high O2 and 4 low O2
+    :param mappings: a python dictionarys of pandas data frame that contains
+                    the adjacency matrices for all 8 replicates including
+                    4 high O2 and 4 low O2
     :return:
-           avg_mappings:
-
+           avg_mappings: a dictionary of pandas data frame for low and high replicates mean
+           std_mappings: a dictionary of pandas data frame for low and high replicates standard deviation
+           snr_mappings: a dictionary of pandas data frame for low and high replicates signal to noise ratio
     """
+    std_mappings = {}
+    avg_mappings = {}
+    snr_mappings = {}
+    high_rep_mapping=[mappings[('High',1)]]
+    low_rep_mapping=[mappings[('Low',1)]]
+    for i in range(2,5):
+        high_rep_mapping.append(mappings[('High',i)])
+        low_rep_mapping.append(mappings[('Low',i)])
+    pd_high_rep = pd.concat(high_rep_mapping)
+    pd_low_rep = pd.concat(low_rep_mapping)
+    # todo: double check if it's using the right functionality of pandas
+    avg_mappings['High'] = pd_high_rep.groupby(level=0).mean()
+    avg_mappings['Low'] = pd_low_rep.groupby(level=0).mean()
+    std_mappings['High'] = pd_high_rep.groupby(level=0).std()
+    std_mappings['Low'] = pd_low_rep.groupby(level=0).std()
+    snr_mappings['High'] = avg_mappings['High']/std_mappings['High']
+    snr_mappings['Low'] = avg_mappings['Low'] / std_mappings['Low']
+
+    return std_mappings, avg_mappings, snr_mappings
