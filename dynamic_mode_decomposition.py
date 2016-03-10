@@ -167,18 +167,25 @@ def aggregate_adjacency_matrix_over_replicates(mappings):
     std_mappings = {}
     avg_mappings = {}
     snr_mappings = {}
-    high_rep_mapping=[mappings[('High',1)]]
-    low_rep_mapping=[mappings[('Low',1)]]
-    for i in range(2,5):
-        high_rep_mapping.append(mappings[('High',i)])
-        low_rep_mapping.append(mappings[('Low',i)])
-    pd_high_rep = pd.concat(high_rep_mapping)
-    pd_low_rep = pd.concat(low_rep_mapping)
+    high_rep_mappings=[]
+    low_rep_mappings=[]
+    #creat two lists, one for each high or low replicates
+    for key in mappings.keys():
+        if key[0] == "High":
+            high_rep_mappings.append(mappings[key])
+        else:
+            low_rep_mappings.append(mappings[key])
+    #concatenate the data frames across replicates since they have different dimensions across replicates
+    pd_high_rep = pd.concat(high_rep_mappings)
+    pd_low_rep = pd.concat(low_rep_mappings)
     # todo: double check if it's using the right functionality of pandas
+    # find the element by element average of adjacency matrix over replicates of high/low O2
     avg_mappings['High'] = pd_high_rep.groupby(level=0).mean()
     avg_mappings['Low'] = pd_low_rep.groupby(level=0).mean()
+    # find the element by element STD of adjacency matrix over replicates of high/low O2
     std_mappings['High'] = pd_high_rep.groupby(level=0).std()
     std_mappings['Low'] = pd_low_rep.groupby(level=0).std()
+    # find the element by element SNR of adjacency matrix over replicates of high/low O2
     snr_mappings['High'] = avg_mappings['High']/std_mappings['High']
     snr_mappings['Low'] = avg_mappings['Low'] / std_mappings['Low']
 
