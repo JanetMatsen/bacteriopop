@@ -154,3 +154,11 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     return linear_mappings, nodes_list
 
 
+def aggregate_adjacency_matrix_over_samples(mappings):
+    """
+    :param mappings: a python dictionary that contains the adjacency matrices for all
+                     8 samples including 4 high O2 and 4 low O2
+    :return:
+           avg_mappings:
+
+    """
