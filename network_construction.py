@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib import pylab
+import seaborn as sns
 from bokeh.plotting import figure, show, output_file
 from bokeh.models import HoverTool, ColumnDataSource
 from bokeh.sampledata.les_mis import data
@@ -160,9 +161,16 @@ def adjacency_matrix_heatmap(Adj, nodes,figure_title, file_name):
     plt.savefig(file_name, bbox_inches="tight")
     # plt.show()
 
+def plot_all_adjacency_heatmaps(mappings_in_pandas):
+    for key in mappings_in_pandas:
+        file_name=str(key[0])+'_oxygen_week_'+str(key[1])+'.pdf'
+        ax = plt.axes()
+        hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
+        ax.set_title(str(key[0])+' oxygen, week '+str(key[1]))
+        hmp.figure.set_figwidth(10)
+        hmp.figure.set_figheight(10)
+        hmp.figure
+        hmp.figure.savefig(file_name,bbox_inches='tight')
+        plt.clf()
 
-# mappings, nodes_list = dmd.find_fixed_adjacency_matrix(0,'order',False)
-# for key in mappings.keys():
-#     Adj,nodes=reduce_adjacency_matrix(mappings[key],nodes_list[key],edge_treshhold=0.5)
-#     file_name=str(key[0])+str(key[1])+'.pdf'
-#     adjacency_matrix_heatmap(Adj,nodes,str(key),file_name)
+

@@ -6,7 +6,7 @@ from sklearn.preprocessing import normalize
 from bacteriopop_utils import prepare_DMD_matrices
 
 
-def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd=True):
+def find_fixed_adjacency_matrix(min_abundance=0.0, phylo_column='order', full_svd=True):
     """
     This function find the adjacency matrix among clusters of bacteria over
     the 11 weeks of sampling assuming the interaction between clusters is
@@ -31,7 +31,9 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd=True):
     if min_abundance is None:
         min_abundance = 0
     if phylo_column is None:
-        phylo_column = 'family'
+        phylo_column = 'order'
+    if full_svd is None:
+        full_svd = False
     # snapshots of samples over 11 weeks
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
@@ -48,10 +50,12 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd=True):
         if full_svd is True:  # slower
             S = np.zeros((len(U), len(s)), dtype=complex)
             S[:len(s), :len(s)] = np.diag(s)
+            pseu_inv_x = np.dot(np.linalg.inv(V),
+                                np.dot(np.linalg.pinv(S), np.linalg.inv(U)))
         else:  # faster
             S = np.diag(s)
-        pseu_inv_x = np.dot(np.linalg.inv(V),
-                            np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
+            pseu_inv_x = np.dot(np.linalg.inv(V),
+                                np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
         # Adjacency matrix between clusters
         A = np.dot(Y, pseu_inv_x)
         # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
@@ -102,6 +106,10 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     """
     This function find the adjacency matrix among clusters of bacteria from
     week to week assuming the interaction between clusters is changing.
+    The algorithm ignore the bacteria with abundance below the min_abundance
+    The data is clustered based on the phylo_column
+    full_svd refers to the method of singular value decomposition. full SVD is
+    more accurate and slower than the reduced SVD
     """
     # Default values
     if min_abundance is None:
@@ -127,10 +135,16 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
             if full_svd is True:  # slower
                 S = np.zeros((len(U), len(s)), dtype=complex)
                 S[:len(s), :len(s)] = np.diag(s)
+                pseu_inv_x = np.dot(np.linalg.inv(V),
+                                    np.dot(np.linalg.pinv(S), np.linalg.inv(U)))
             else:  # faster
                 S = np.diag(s)
-            pseu_inv_x = np.dot(np.linalg.inv(V),
+                pseu_inv_x = np.dot(np.linalg.inv(V),
                                 np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
+            # Adjacency matrix between clusters
+            A = np.dot(Y, pseu_inv_x)
+            # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
+            key = descriptive_tuple + ('Week ' + str(time+1), )
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
             # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
@@ -140,3 +154,39 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     return linear_mappings, nodes_list
 
 
+def aggregate_adjacency_matrix_over_replicates(mappings):
+    """
+    :param mappings: a python dictionarys of pandas data frame that contains
+                    the adjacency matrices for all 8 replicates including
+                    4 high O2 and 4 low O2
+    :return:
+           avg_mappings: a dictionary of pandas data frame for low and high replicates mean
+           std_mappings: a dictionary of pandas data frame for low and high replicates standard deviation
+           snr_mappings: a dictionary of pandas data frame for low and high replicates signal to noise ratio
+    """
+    std_mappings = {}
+    avg_mappings = {}
+    snr_mappings = {}
+    high_rep_mappings=[]
+    low_rep_mappings=[]
+    #creat two lists, one for each high or low replicates
+    for key in mappings.keys():
+        if key[0] == "High":
+            high_rep_mappings.append(mappings[key])
+        else:
+            low_rep_mappings.append(mappings[key])
+    #concatenate the data frames across replicates since they have different dimensions across replicates
+    pd_high_rep = pd.concat(high_rep_mappings)
+    pd_low_rep = pd.concat(low_rep_mappings)
+    # todo: double check if it's using the right functionality of pandas
+    # find the element by element average of adjacency matrix over replicates of high/low O2
+    avg_mappings['High'] = pd_high_rep.groupby(level=0).mean()
+    avg_mappings['Low'] = pd_low_rep.groupby(level=0).mean()
+    # find the element by element STD of adjacency matrix over replicates of high/low O2
+    std_mappings['High'] = pd_high_rep.groupby(level=0).std()
+    std_mappings['Low'] = pd_low_rep.groupby(level=0).std()
+    # find the element by element SNR of adjacency matrix over replicates of high/low O2
+    snr_mappings['High'] = avg_mappings['High']/std_mappings['High']
+    snr_mappings['Low'] = avg_mappings['Low'] / std_mappings['Low']
+
+    return std_mappings, avg_mappings, snr_mappings
