@@ -1,5 +1,5 @@
-<div align="justify">
 # Report Week 1 
+<div align="justify">
 
 <b> Technology review </b>
 <ol>
@@ -37,7 +37,7 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Questions to be answered for further steps are listed below
 </ol>
 
-<b> Deliverables for upcoming week </b>
+<b> Deliverables for next week </b>
 <ol>
 <li>  Data cleaning: throwing out data with missing labels and formatting the data from categorical values into binary values
 <li>  Convert our bacteria's labels to binary format (works for < 1000)
