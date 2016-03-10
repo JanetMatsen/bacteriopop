@@ -1,6 +1,7 @@
 # Dynamic Mode Decomposition based on http://arxiv.org/pdf/1312.0041v1.pdf
 
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import normalize
 from bacteriopop_utils import prepare_DMD_matrices
 
@@ -59,7 +60,16 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd=True):
     return linear_mappings, nodes_list
 
 
-def A_matrix_into_pandas_dict():
+def adjacency_matrix_into_pandas(mappings_array, row_and_colnames):
+    """
+    Turn one matrix with one set of labels into a Pandas DataFrame with
+    index (row) names set to row_and_colnames as well has column names set
+    to row_and_colnames.
+
+    :param mappings_array: numpy matrix produced from ___
+    :param row_and_colnames: numpy array of names produced by ___
+    :return: one Pandas DataFrame with row and column names.
+    """
     # Goal: return a Pandas DataFrame with suitable labels by combining the
     # linear_mappings and nodes_list outputs of find_fixed_adjacency_matrix().
 
@@ -67,7 +77,25 @@ def A_matrix_into_pandas_dict():
     # Bacteria,Proteobacteria,Gammaproteobacteria,Pseudomonadales
     # and sometimes
     # unassigned,,,   <-- when the taxonomy was not fully specified.
-    pass
+
+    # for now just return the long strings:
+    return pd.DataFrame(mappings_array,
+                        columns=row_and_colnames,
+                        index=row_and_colnames)
+
+
+def DMD_results_dict_from_numpy_to_pandas(adj_dict, node_name_dict):
+    # transform our dict of descriptive tuple:numpy array pairs into a dict of
+    # descriptive tuple:pandas dataframe dict.
+    # todo: assert that the set of keys in both inputs match.
+    dict_with_dataframe_values = {}
+    for key in adj_dict.keys():
+        print key
+        np_to_pd = adjacency_matrix_into_pandas(adj_dict[key],
+                                                node_name_dict[key])
+        dict_with_dataframe_values[key] = np_to_pd
+
+    return dict_with_dataframe_values
 
 
 def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
