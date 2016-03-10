@@ -157,13 +157,15 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
     # aggregate on the desired phylogenetic level.
     dataframe = aggregate_on_phylo_level(dataframe=dataframe,
                                          phylo_level=phylo_column)
+    # check that the abundances still sum to 1.
+    assert(check_abundances_sums(dataframe)), "sample abundances don't sum " \
+                                              "to 1"
     dataframe.reset_index(inplace=True)
     print "columns after aggregating on phylo level: {}".format(dataframe.columns)
     # Reduce to interesting abundance rows, using the min_abundance threshold.
     return filter_by_abundance(dataframe=dataframe,
                                abundance_column='abundance',
                                low=min_abundance,
-                               high=1,
                                phylo_column=phylo_column)
 
 
