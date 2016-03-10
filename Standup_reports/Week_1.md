@@ -1,19 +1,20 @@
+<div align="justify">
 # Report Week 1 
 
 <b> Technology review </b>
 <ol>
 
-<li>  Technology used:
+<li>  Technology 
 <ol>
 <li>  Scikitlearn - open source machine learning library for the Python programming language.
 <li>  Custom methods, originally tailored by Saghar.
 <li>  Standard libraries like numpy, pandas and matplotlib
 </ol>
 
-<li>  Need for these packages:
+<li>  Motivation for these packages
 Our objectives of data pre-processing, visualization and creation of an interaction network using Machine Learning methods can be achieved using these packages, in a simple and efficient manner. 
 
-<li> Benefits of scikit-learn:
+<li> Benefits of scikit-learn
 <ol>
 <li>  Consistent interface to machine learning models
 <li>  Provides many tuning parameters but with sensible defaults
@@ -22,13 +23,13 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Active community for development and support
 </ol>
 
-<li>  Potential drawbacks of scikit-learn:
+<li>  Potential drawbacks of scikit-learn
 <ol>
 <li>  Steep learning curve for beginners.
 <li>  Less emphasis on model interpretability than other open-source packages
 </ol>
 </ol>
-<b> Progress made according to schedule!</b>
+<b> Progress</b>
 <ol>
 <li>  Dataset identified and approved for use (see raw_data)
 <li>  Use cases and project goals listed in Task.md
@@ -36,14 +37,14 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Questions to be answered for further steps are listed below
 </ol>
 
-<b> Tasks for upcoming week: </b>
+<b> Deliverables for upcoming week </b>
 <ol>
 <li>  Data cleaning: throwing out data with missing labels and formatting the data from categorical values into binary values
 <li>  Convert our bacteria's labels to binary format (works for < 1000)
 <li>  Data visualization.  Correlation between bacteria. 
 </ol>
 
-<b> Food for thought: </b>
+<b> Challenges </b>
 <ol>
 <li>  How do we choose which attributes of my data to include in the model?
 <li>  How do we choose which model to use?
@@ -53,3 +54,4 @@ Our objectives of data pre-processing, visualization and creation of an interact
 <li>  Can we estimate how well my model is likely to perform on unseen data?
 <li>  How do we plan to visualize our data in an easily interpretable and intuitive way?
 </ol>
+</div>
