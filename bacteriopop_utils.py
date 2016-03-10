@@ -3,6 +3,7 @@ import load_data
 
 from sklearn.feature_extraction import DictVectorizer
 
+# a default set of features to extract into binary format for clustering.
 FEATURES_TO_EXTRACT = ['kingdom', 'phylum', 'class', 'order',
                        'family', 'genus', 'length', 'oxygen',
                        'replicate', 'week', 'abundance']
@@ -10,7 +11,17 @@ FEATURES_TO_EXTRACT = ['kingdom', 'phylum', 'class', 'order',
 
 def phylo_levels_below(phylo_level):
     """
+    Get the phylogeny levels below the input level.  "Below" means more
+    specific, in the sense that the kingdom bacteria is above the phylum
+    proteobacteria.
+
     E.g. 'order' --> ['family', 'genus']
+
+    :param phylo_level: a phylogeny level in the set 'kingdom', 'phylum',
+    'class', 'order', 'family', 'genus'
+    :return: list of strings.
+
+
     """
     p_levels = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus']
     position_of_phylo_level = p_levels.index(phylo_level)
@@ -19,7 +30,14 @@ def phylo_levels_below(phylo_level):
 
 def phylo_levels_above(phylo_level):
     """
+    Get the phylogeny levels above the input level.  "Above" means more
+    general, in the sense that the kingdom bacteria is above the phylum
+    proteobacteria.
+
     E.g. 'order' --> ['kingdom', 'phylum', 'class']
+    :param phylo_level: a phylogeny level in the set 'kingdom', 'phylum',
+    'class', 'order', 'family', 'genus'
+    :return: list of strings.
     """
     p_levels = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus']
     position_of_phylo_level = p_levels.index(phylo_level)
@@ -27,27 +45,60 @@ def phylo_levels_above(phylo_level):
 
 
 def aggregate_on_phylo_level(dataframe, phylo_level):
-    # If you pass ['kingdom', 'phylum', 'class'], it will return a
-    # dataframe with only those phylo levels specified and all lower levels
-    # All abundances for that set of phylo levels is aggregated and the
-    # abundances for each condtion are summed.
-    # dropp all phylo_levels below the specified one.
+    """
+    Return data simplified to the specified phylogenetic level.
 
-    # Groupby the project (includes week, O2)
+    If your data is too detailed, you might decide to only look as deep as one
+    phylogenetic level.  This tool aggregates (sums) the abundances at for
+    the more detailed levels before deleting too-detailed phylogenetic columns
+    and returning the simplified data.
+
+    If you pass phylo_level = 'order', you will get back a simplified
+    dataframe with only phylogenetic columns ['kingdom', 'phylum', 'class'],
+
+    dataframe with only those phylo levels specified and all lower levels
+    All abundances for that set of phylo levels is aggregated and the
+    abundances for each condition are summed.
+    drop all phylo_levels below the specified one.
+    """
+    # Get rid of the length column.  I believe this is optional b/c of the
+    # way the groupby works.
+    # todo: delete 'length' in the original column or test deletion of
+    # these two lines.
     if 'length' in dataframe.columns:
         dataframe.drop('length', axis=1, inplace=True)
+    # Break apart the data by week, O2 so we can sum appropriately.
     groupby_levels = ['oxygen', 'replicate', 'week'] + \
                      phylo_levels_above(phylo_level) + [phylo_level]
     return dataframe.groupby(groupby_levels).sum()
 
 
 def check_abundances_sums(dataframe):
-    # todo: make a function that checks that each sample's abundances sum to
-#  1.
-    pass
+    # todo: write docstring
+    # first reset the indices so our groupby on oxygen, replicate, and week
+    # works.
+    # make a copy because I'm not sure whether this would alter the original
+    #  or not.
+    df = dataframe.reset_index()
+    # calculate sums of abundances.
+    # returns a pandas series.
+    sample_abundance_sums = \
+        df.groupby(['oxygen', 'replicate', 'week'])['abundance'].sum()
+    # check that the values are all very close to 1.
+    # they will be if abs(number - 1) < 0.001
+    should_be_approx_zero = [abs(s-1) for s in sample_abundance_sums]
+    total_close_to_zero = sum([x <0.001 for x in should_be_approx_zero])
+    if total_close_to_zero == len(sample_abundance_sums):
+        print "all groups of oxygen/week/replicate have abundances that sum " \
+              "to 1"
+        return True
+    else:
+        print "number of samples that don't sum to 1: {}".format(
+            len(sample_abundance_sums) - total_close_to_zero)
+        return False
 
 
-def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
+def filter_by_abundance(dataframe, low, abundance_column='abundance',
                         phylo_column='genus'):
     """
     Return only rows where the specified phylo_colum's set of rows have at
@@ -56,8 +107,10 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
     E.g. only return the genus Methylobacter if at least one sample in the
     data has abundance over the specified `low` input.
 
-    :param data: dataframe to reduce
-    :param abundance_column: column to filter by.  Defalts to 'abundance'
+    NOTE: abundances will no longer sum to 1 after this step.
+
+    :param dataframe: dataframe to reduce
+    :param abundance_column: column to filter by.  Defaults to 'abundance'
     :param phylo_column: column to grab unique values from.  Defaults to
     'genus'.
     :param low: lowest abundance to look for
@@ -65,22 +118,35 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
     :return: dataframe
     """
     # todo: assert that the desired abundance and phylo columns exist.
-
     # get a list of the phylo_column names that meet our criteria.
     phylo_column_values_to_keep = \
-        dataframe[(dataframe[abundance_column] <= high) &
-                  (dataframe[abundance_column] >= low)][phylo_column].unique()
-    print("first (up to) 5 phylo columns to "
-          "keep: {}".format(phylo_column_values_to_keep[0:5]))
+        dataframe[(dataframe[abundance_column] >= low)][phylo_column].unique()
+    print "first (up to) 5 phylo columns to "
+    print "keep: {}".format(phylo_column_values_to_keep[0:5])
     # Return ALL rows for a phylo_column label if ANY of the rows had an
     # abundance value in the desired range.
+
+    # todo: check that abundances sum to 1: group by week, oxygen, replicate
     return dataframe[dataframe[phylo_column].isin(phylo_column_values_to_keep)]
 
 
 def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
+    """
+    return a simplified dataframe that only looks as deep as the specified
+    phylo_column, restricts to bacteria with abundance greater than
+    min_abundance, and conforms to the oxygen setting.
+
+    :param dataframe: input data.  Probably your raw data is imported by
+    load_data.py
+    :param min_abundance: consider any bacteria uninteresting if they don't
+    have abundance over this value in at least one sample
+    :param phylo_column: the most specific phylogenetic level to consider.
+    :param oxygen: the oxygen setting(s) to restrict to.  "all", "low",
+    or "high"
+    :return:pandas DataFrame that is trimmed down according to specifications.
+    """
     # note: we are aggregating on phylo level *before* filtering by
     # abundance.  This choice impacts the output!
-    # todo: fill NA values as "other"?
     # Consider only the desired oxygen condition(s)
     if (oxygen == "Low") or (oxygen == 'low'):
         dataframe = dataframe[dataframe['oxygen'] == 'Low']
@@ -91,17 +157,27 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
     # aggregate on the desired phylogenetic level.
     dataframe = aggregate_on_phylo_level(dataframe=dataframe,
                                          phylo_level=phylo_column)
+    # check that the abundances still sum to 1.
+    assert(check_abundances_sums(dataframe)), "sample abundances don't sum " \
+                                              "to 1"
     dataframe.reset_index(inplace=True)
     print "columns after aggregating on phylo level: {}".format(dataframe.columns)
     # Reduce to interesting abundance rows, using the min_abundance threshold.
     return filter_by_abundance(dataframe=dataframe,
                                abundance_column='abundance',
                                low=min_abundance,
-                               high=1,
                                phylo_column=phylo_column)
 
 
 def break_apart_experiments(dataframe):
+    """
+    break apart experiments according to week and oxygen into a dictionary
+    of descriptive tuple keys and Pandas DataFrame values.
+
+    :param dataframe:input dataframe
+    :return:dictionary with tuple keys that describe the experiment and
+    values that are the corresponding Pandas Dataframes.
+    """
     # Break apart the high/low O2 rows.  Also break up replicates.
     # Fill fill them into a dictionary.  Keys are tuples that specify
     # (oxygen, replicate).  Values are dictionaries that correspond to that
@@ -116,6 +192,14 @@ def break_apart_experiments(dataframe):
 
 
 def concat_phylo_columns(dataframe):
+    """
+    Concatenate multiply phylogenetic column names into one string separated
+    by commas
+
+    :param dataframe: input dataframe with phylogenetic columns
+    :return: pandas dataframe with only the concatenated version of the
+    phylogenetic column
+    """
     dataframe['phylo_concat'] = ''
     for colname in ['kingdom', 'phylum', 'class', 'order', 'family', 'genus']:
         if colname in dataframe.columns:
@@ -132,6 +216,16 @@ def concat_phylo_columns(dataframe):
 
 
 def pivot_for_abundance_matrix(dataframe):
+    """
+    Pivot data so the rows are bacteria and the columns are week numbers.
+    The values are the corresponding abundances.
+
+    Note that all of the phylogenetic descriptive columns are concatenated
+    into a single column to make this possible.
+
+    :param dataframe: input data to aggregate
+    :return: dataframe pivoted.
+    """
     # pivot dataframe so abundance is the value in the matrix.
     # Rows are phylogeny.  Columns are week.
     # todo: Can use this to check that we have the right number of unique
@@ -145,6 +239,18 @@ def pivot_for_abundance_matrix(dataframe):
 
 
 def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
+    """
+    Wrapper function simplifying, aggregating, and massaging data into the
+    format desired for DMD: rows are taxonomic information and columns are
+    week numbers.
+
+    :param min_abundance: minimum abundance to consider interesting.
+    Bacteria whose abundance is never above this in any samples are dropped.
+    :param phylo_column: most detailed phylogenetic column to consider
+    :param oxygen: oxygen level to consider: 'all', 'low', or 'high'
+    :return: a dictionary with keys that are tuples describing the subset of
+    the data in the corresponding dataframe value.
+    """
     dataframe = load_data.load_data()
     dataframe = reduce_data(dataframe=dataframe,
                             min_abundance=min_abundance,
