@@ -97,7 +97,6 @@ def reduce_adjacency_matrix(adj, nodes, edge_threshold):
                 remove = False
         if not remove:
             new_nodes_index.append(node1)
-            # It is key for our results, and I don't want to get it wrong.
             kept_nodes_names.append(nodes[node1])
     new_adj = np.zeros([len(new_nodes_index), len(new_nodes_index)])
     for i, node1 in enumerate(new_nodes_index):
