@@ -59,7 +59,7 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd=True):
     return linear_mappings, nodes_list
 
 
-def A_matrix_into_pandas():
+def A_matrix_into_pandas_dict():
     # Goal: return a Pandas DataFrame with suitable labels by combining the
     # linear_mappings and nodes_list outputs of find_fixed_adjacency_matrix().
 
