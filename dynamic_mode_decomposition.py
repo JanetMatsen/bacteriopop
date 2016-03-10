@@ -5,19 +5,32 @@ from sklearn.preprocessing import normalize
 from bacteriopop_utils import prepare_DMD_matrices
 
 
-def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
+def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd=True):
     """
     This function find the adjacency matrix among clusters of bacteria over
     the 11 weeks of sampling assuming the interaction between clusters is
     fixed.
+
+    It creates a dictionary of descriptive tuples like ("High", 2) for
+    high-oxygen week 2, and corresponding dataframe values.  These
+    dataframes have weeks as columns and taxa ("bacteria") as rows.
+
+    Unlike find_temporal_adjacency_matrix(), we get only one predictive
+    matrix that represents the 10 transitions between sampling points.
+
+    Since the dictionary has 8 tuple keys for High/Low oxygen and 4
+    replicates for each condition, 8 interaction ("A") matrices are created.
+
+    These are accessed by the dictionary linear_mappings, with the same
+    tuples as keys.
+
+    The names of each node can be accessed by nodes_list, the other output.
     """
     # Default values
     if min_abundance is None:
         min_abundance = 0
     if phylo_column is None:
         phylo_column = 'family'
-    if full_svd is None:
-        full_svd = False
     # snapshots of samples over 11 weeks
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
@@ -44,6 +57,17 @@ def find_fixed_adjacency_matrix(min_abundance, phylo_column, full_svd):
         linear_mappings[descriptive_tuple] = A
         nodes_list[descriptive_tuple] = list(df.index)
     return linear_mappings, nodes_list
+
+
+def A_matrix_into_pandas():
+    # Goal: return a Pandas DataFrame with suitable labels by combining the
+    # linear_mappings and nodes_list outputs of find_fixed_adjacency_matrix().
+
+    # todo: which labels do we use?  So far labels are things like:
+    # Bacteria,Proteobacteria,Gammaproteobacteria,Pseudomonadales
+    # and sometimes
+    # unassigned,,,   <-- when the taxonomy was not fully specified.
+    pass
 
 
 def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
