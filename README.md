@@ -8,6 +8,14 @@ Population dynamics for abundances calculated from meta-omics sequencing
 * Oxygen conditions were switched for the last 4 samples. 
 * Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 
+<b> Tools Used: </b>
+* ___  (DMD): (insert definition here). 
+
+
+<b> Outputs: </b>
+* ___  ("A" matrices) 
+
+
 <b> Technology Review: </b>
 * [Tehcnology Review Presentation](https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17)
 
