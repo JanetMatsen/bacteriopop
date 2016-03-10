@@ -1,3 +1,4 @@
+<div align="justify">
 # Report Week 2
 
 <b> Progress </b>
@@ -9,7 +10,7 @@ Scripts were written to perform these tasks:
 <li>  Principal Component Analysis for the dataframe to convert the set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables.
 </ol>
 
-<b> Tasks for upcoming week </b>
+<b> Deliverables for next week </b>
 <ol>
 <li>  Visualizing the data using Seaborn, pandas or matplotlib. Inspired by work on the famous Iris dataset.
 <li>  Application of machine learning algorithms for unsupervised learning and clustering such as kd-tree, k-means or Expectation maximization (EM)
@@ -22,3 +23,4 @@ Scripts were written to perform these tasks:
 <li>  How do we ensure that we're building a model that will generalize to unseen data?
 <li>  Can we estimate how well my model is likely to perform on unseen data?
 </ol>
+</div>
