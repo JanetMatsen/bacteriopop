@@ -74,9 +74,23 @@ def aggregate_on_phylo_level(dataframe, phylo_level):
 
 
 def check_abundances_sums(dataframe):
-    # todo: make a function that checks that each sample's abundances sum to
-#  1.
-    pass
+    # first reset the indices so our groupby on oxygen, replicate, and week
+    # works.
+    # make a copy because I'm not sure whether this would alter the original
+    #  or not.
+    df = dataframe.reset_index()
+    # calculate sums of abundances.
+    # returns a pandas series.
+    sample_abundance_sums = \
+        df.groupby(['oxygen', 'replicate', 'week'])['abundance'].sum()
+    # check that the values are all very close to 1.
+    # they will be if abs(number - 1) < 0.001
+    should_be_approx_zero = [abs(s-1) for s in sample_abundance_sums]
+    total_close_to_zero = sum([x <0.001 for x in should_be_approx_zero])
+    if total_close_to_zero == len(sample_abundance_sums):
+        return True
+    else:
+        return False
 
 
 def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
@@ -106,6 +120,8 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
     print "keep: {}".format(phylo_column_values_to_keep[0:5])
     # Return ALL rows for a phylo_column label if ANY of the rows had an
     # abundance value in the desired range.
+
+    # todo: check that abundances sum to 1: group by week, oxygen, replicate
     return dataframe[dataframe[phylo_column].isin(phylo_column_values_to_keep)]
 
 
@@ -126,7 +142,6 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
     """
     # note: we are aggregating on phylo level *before* filtering by
     # abundance.  This choice impacts the output!
-    # todo: fill NA values as "other"?
     # Consider only the desired oxygen condition(s)
     if (oxygen == "Low") or (oxygen == 'low'):
         dataframe = dataframe[dataframe['oxygen'] == 'Low']
