@@ -74,6 +74,7 @@ def aggregate_on_phylo_level(dataframe, phylo_level):
 
 
 def check_abundances_sums(dataframe):
+    # todo: write docstring
     # first reset the indices so our groupby on oxygen, replicate, and week
     # works.
     # make a copy because I'm not sure whether this would alter the original
@@ -88,12 +89,16 @@ def check_abundances_sums(dataframe):
     should_be_approx_zero = [abs(s-1) for s in sample_abundance_sums]
     total_close_to_zero = sum([x <0.001 for x in should_be_approx_zero])
     if total_close_to_zero == len(sample_abundance_sums):
+        print "all groups of oxygen/week/replicate have abundances that sum " \
+              "to 1"
         return True
     else:
+        print "number of samples that don't sum to 1: {}".format(
+            len(sample_abundance_sums) - total_close_to_zero)
         return False
 
 
-def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
+def filter_by_abundance(dataframe, low, abundance_column='abundance',
                         phylo_column='genus'):
     """
     Return only rows where the specified phylo_colum's set of rows have at
@@ -101,6 +106,8 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
 
     E.g. only return the genus Methylobacter if at least one sample in the
     data has abundance over the specified `low` input.
+
+    NOTE: abundances will no longer sum to 1 after this step.
 
     :param dataframe: dataframe to reduce
     :param abundance_column: column to filter by.  Defaults to 'abundance'
@@ -110,12 +117,10 @@ def filter_by_abundance(dataframe, low, high=1, abundance_column='abundance',
     :param high: highest abundance to look for (default = 1)
     :return: dataframe
     """
-    # todo: the "high" argument isn't doing anything.  Remove it?
     # todo: assert that the desired abundance and phylo columns exist.
     # get a list of the phylo_column names that meet our criteria.
     phylo_column_values_to_keep = \
-        dataframe[(dataframe[abundance_column] <= high) &
-                  (dataframe[abundance_column] >= low)][phylo_column].unique()
+        dataframe[(dataframe[abundance_column] >= low)][phylo_column].unique()
     print "first (up to) 5 phylo columns to "
     print "keep: {}".format(phylo_column_values_to_keep[0:5])
     # Return ALL rows for a phylo_column label if ANY of the rows had an
