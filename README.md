@@ -20,7 +20,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 |  <p align="left"> Gaussian Mixture Models (GMM)|   <p align="center"> Python scikit-learn|<p align="left">Parametric probability density function that generates all data points from weighted sum of Gaussian component densities with unknown parameters|  <p align="left">Clusters of data points with performance metrics|
 
 <b> Technology Review: </b>
-* [Tehcnology Review Presentation](https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17)
+* [Technology Review Presentation](https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17)
 
 <b> Directory Structure:
 
