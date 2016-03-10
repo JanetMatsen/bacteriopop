@@ -10,7 +10,7 @@
 <li>    kd-tree: For quick nearest-neighbor lookup. This class provides an index into a set of k-dimensional points which can be used to rapidly look up the nearest neighbors of any point, provided the neighbors are indexed.
 </ol>
 
-<b> Progress: </b>
+<b> Progress </b>
 <ol>
 <li>    Reducing the size of our data, for ease of use with machine learning methods
 <li>    Work on scripts to perform clustering by kd-tree, Gaussian Mixture models and DBSCAN 
@@ -21,8 +21,14 @@
 <li>    Tackling sparse data
 </ol>
 
-<b> Tasks for upcoming week </b>
+<b> Deliverables for next week </b>
 <ol>
 <li>  Completion of all code, debugging, PEP-8 compliance, documentation, performance metrics, building narrative of project and creating a poster for presentation.
 <li>  Visualizing the data using Seaborn, pandas or matplotlib. 
+</ol>
+
+<b> Challenges </b>
+<ol>
+<li>  Time crunch
+<li>  Finals week
 </ol>
