@@ -10,9 +10,9 @@ Population dynamics for abundances calculated from meta-omics sequencing
 <li>    Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 </ol>
 
-<b> Methods and Outputs: </b>
+<b> Tools: </b>
 
-|<p align="center"> Method| <p align="center">Source package | <p align="center">Description | <p align="center"> Output  |
+|<p align="center"> Name| <p align="center">Source package | <p align="center">Description | <p align="center"> Output  |
 | ----------------------- |:--------------------------------:| -----------------------------:| -------------------------: |
 |  <p align="left"> Dynamic Mode Decomposition (DMD)| <p align="center">Python modred|<p align="left"> Dimensionality reduction algorithm for a time series of data that computes a set of modes each of which is associated with a fixed oscillation frequency and decay/growth rate | <p align="left">Matrix of interaction values A for every sample, either computed for every time step or bulked over time |
 | <p align="left">  NetworkX| <p align="center"> Third party library NetworkX|<p align="left">Software package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks|<p align="left"> Classic graphs, random graphs, and synthetic networks with any kind of node (e.g. text, images, XML records) and edges holding arbitrary data (e.g. weights, time-series) |
