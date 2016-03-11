@@ -4,6 +4,8 @@ import numpy as np
 from sklearn.cross_validation import train_test_split
 from sklearn.externals.six.moves import xrange
 from sklearn.mixture import GMM
+from load_data import load_data
+from bacteriopop_utils import extract_features
 
 TARGET = 'abundance'
 # FEATURES_LIST = ['kingdom',	'phylum', 'class', 'order', 'family',
@@ -81,3 +83,22 @@ def gmm(dataframe, features_list):
 
     plt.legend(loc='lower right', prop=dict(size=12))
     plt.show()
+
+def gmm_demo():
+    print 'starting up'
+    df = load_data()
+    print 'load done'
+    df = extract_features(df)
+    print 'extract done'
+    features_list = list(df.columns.values)[1:]
+    print 'features done'
+    gmm(df, features_list)
+
+# Run the following code if the file is run at the command line
+
+
+def main():
+    return gmm_demo()
+
+if __name__ == "__main__":
+    main()
