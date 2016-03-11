@@ -4,10 +4,6 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib import pylab
 import seaborn as sns
-from bokeh.plotting import figure, show, output_file
-from bokeh.models import HoverTool, ColumnDataSource
-from bokeh.sampledata.les_mis import data
-import dynamic_mode_decomposition as dmd
 
 
 def create_one_graph_using_networkx(adj, nodes, edge_threshold):
@@ -48,7 +44,7 @@ def create_all_graphs(mappings, nodes_list, edge_threshold=1e-10):
     return graphs
 
 
-def save_graph(graph,file_name):
+def save_graph(graph, file_name):
     """
     This function saves the graph into a file called file_name
     :param graph:
@@ -69,7 +65,7 @@ def save_graph(graph,file_name):
     plt.xlim(0, xmax)
     plt.ylim(0, ymax)
 
-    plt.savefig('plots/'+file_name, bbox_inches="tight")
+    plt.savefig('plots/' + file_name, bbox_inches="tight")
     pylab.close()
     del fig
 
@@ -85,8 +81,6 @@ def reduce_adjacency_matrix(adj, nodes, edge_threshold):
     :param edge_threshold: minimum magnitude to search for and include
     """
     n = len(nodes)
-    print "number of nodes (rows/columns): {}".format(n)
-    print "first few nodes: {}".format(nodes[0:5])
     new_nodes_index = []
     kept_nodes_names = []
     # todo: return the names of the reduced data's rows, columns instead of
@@ -175,14 +169,15 @@ def plot_all_adjacency_heatmaps(mappings_in_pandas):
     :param mappings_in_pandas:
     """
     for key in mappings_in_pandas:
-        file_name='plots/'+str(key[0])+'_oxygen_week_'+str(key[1])+'.pdf'
+        file_name = 'plots/' + str(key[0]) + '_oxygen_week_' + \
+                    str(key[1]) + '.pdf'
         ax = plt.axes()
         hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
         ax.set_title(str(key[0])+' oxygen, week '+str(key[1]))
         hmp.figure.set_figwidth(10)
         hmp.figure.set_figheight(10)
         hmp.figure
-        hmp.figure.savefig(file_name,bbox_inches='tight')
+        hmp.figure.savefig(file_name, bbox_inches='tight')
         plt.clf()
 
 
@@ -194,14 +189,12 @@ def plot_aggregated_adjacency_heatmaps(mappings_in_pandas, dtype='Mean'):
     :param dtype: the type of matrices to be plotted such as Mean, STD, SNR
     """
     for key in mappings_in_pandas:
-        file_name='plots/'+key+"_oxygen_replicates_" + dtype + '.pdf'
+        file_name = 'plots/'+key+"_oxygen_replicates_" + dtype + '.pdf'
         ax = plt.axes()
-        hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
-        ax.set_title(key +' oxygen replicates ' + dtype)
+        hmp = sns.heatmap(mappings_in_pandas[key], ax=ax)
+        ax.set_title(key + ' oxygen replicates ' + dtype)
         hmp.figure.set_figwidth(10)
         hmp.figure.set_figheight(10)
         hmp.figure
-        hmp.figure.savefig(file_name,bbox_inches='tight')
+        hmp.figure.savefig(file_name, bbox_inches='tight')
         plt.clf()
-
-
