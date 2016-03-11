@@ -10,42 +10,49 @@ from bokeh.sampledata.les_mis import data
 import dynamic_mode_decomposition as dmd
 
 
-def create_one_graph_using_networkx(adj, nodes, edge_treshhold):
+def create_one_graph_using_networkx(adj, nodes, edge_threshold):
     """
     This function create a graph using the adjacency matrix adj and
     list of nodes.
 
     :param adj: a numpy array representing the adjacency matrix
     :param nodes: a list representing the nodes in the graph
-    :param edge_treshhold: the treshhold on the elements of adjacency matrix adj for that
-                           pair to be consider as an edge
+    :param edge_threshold: the threshold on the elements of adjacency
+    matrix adj for that pair to be consider as an edge
     :return: the graph in networkX format
     """
     # create and empty graph
-    G = nx.Graph()
+    g = nx.Graph()
     # add edges to the graph
-    N = len(nodes)
-    for node1 in range(N):
-        for node2 in range(N):
-            if node1 == node2 or abs(adj[node1][node2]) >= edge_treshhold:
-                G.add_edge(node1, node2)
-                G[node1][node2]['weight'] = adj[node1][node2]
-    return G
+    n = len(nodes)
+    for node1 in range(n):
+        for node2 in range(n):
+            if node1 == node2 or abs(adj[node1][node2]) >= edge_threshold:
+                g.add_edge(node1, node2)
+                g[node1][node2]['weight'] = adj[node1][node2]
+    return g
 
 
-def create_all_graphs(mappings, nodes_list, edge_treshhold=1e-10):
+def create_all_graphs(mappings, nodes_list, edge_threshold=1e-10):
     """
-    This function trnasforms the adjacency matrix into the graph for all the instances
+    Transforms the adjacency matrix into the graph for all the instances
+    :param mappings:
+    :param nodes_list:
+    :param edge_threshold:
     """
     graphs = {}
     for key in mappings.keys():
-        graphs[key] = create_one_graph_using_networkx(mappings[key], nodes_list[key], edge_treshhold)
+        graphs[key] = create_one_graph_using_networkx(mappings[key],
+                                                      nodes_list[key],
+                                                      edge_threshold)
     return graphs
 
 
 def save_graph(graph,file_name):
     """
-    This function save the graph into a file called file_name
+    This function saves the graph into a file called file_name
+    :param graph:
+    :param file_name:
     """
     # initialze Figure
     plt.figure(num=None, figsize=(20, 20), dpi=80)
@@ -130,7 +137,7 @@ def generate_x_y(adj):
 
 def heatmap(adj, nodes):
     """
-    This function creates a heat map for the numpy array adj
+    This function creates a hex bin plot for the numpy array adj
 
     :param adj:
     :param nodes:
@@ -145,24 +152,27 @@ def heatmap(adj, nodes):
                bins=None, mincnt=-100, extent=[x_min, x_max, y_min, y_max])
 
 
-def adjacency_matrix_heatmap(Adj, nodes,figure_title, file_name):
+def adjacency_matrix_heatmap(adj, nodes, figure_title, file_name):
     """
-    This function creates heat maps for the adjacency matrix Adj
-    and save it into the file_name
-    The Adj is in numpy array format
-    nodes is the list of nodes
-    figure_title is a string represnting the tile of the saved figure
+    This function creates heat maps for the adjacency matrix Adj and save it
+    into the file_name The Adj is in numpy array format
+    :param adj:
+    :param nodes: the list of nodes (phyla label)
+    :param figure_title: string to use for the title
+    :param file_name: the file name to save the figure with.
     """
-    heatmap(Adj, nodes)
+    heatmap(adj, nodes)
     cb = plt.colorbar()
     cb.set_label('abundance')
     plt.title(figure_title)
     plt.savefig(file_name, bbox_inches="tight")
     # plt.show()
 
+
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
     """
     plot and save the heat maps of the matrices given in pandas data frame
+    :param mappings_in_pandas:
     """
     for key in mappings_in_pandas:
         file_name='plots/'+str(key[0])+'_oxygen_week_'+str(key[1])+'.pdf'
@@ -175,18 +185,19 @@ def plot_all_adjacency_heatmaps(mappings_in_pandas):
         hmp.figure.savefig(file_name,bbox_inches='tight')
         plt.clf()
 
-def plot_aggregated_adjacency_heatmaps(mappings_in_pandas, type='Mean'):
+
+def plot_aggregated_adjacency_heatmaps(mappings_in_pandas, dtype='Mean'):
     """
     plot and save the heat maps of the matrices given in pandas data frame
-    mappings_in_pandas: is dictionary that contains two elements, including
-                        information for 'High' and 'Low' replicates
-    type: the type of matrices to be plotted such as Mean, STD, SNR
+    :param mappings_in_pandas: a dictionary that containing two elements,
+    including information for 'High' and 'Low' replicates
+    :param dtype: the type of matrices to be plotted such as Mean, STD, SNR
     """
     for key in mappings_in_pandas:
-        file_name='plots/'+key+"_oxygen_replicates_"+type+'.pdf'
+        file_name='plots/'+key+"_oxygen_replicates_" + dtype + '.pdf'
         ax = plt.axes()
         hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
-        ax.set_title(key+' oxygen replicates '+ type)
+        ax.set_title(key +' oxygen replicates ' + dtype)
         hmp.figure.set_figwidth(10)
         hmp.figure.set_figheight(10)
         hmp.figure
