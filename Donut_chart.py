@@ -51,13 +51,14 @@ def select_sample(oxygen,week,replicate):
     return dataframe
 
 def reduce_data(df):
-    df = bacteriopop_utils.reduce_data(df, 0.02, phylo_column='genus', oxygen="all")
-    df = df.drop(['oxygen','replicate','week','genus'],axis=1)
+    df.replace('', 'other', inplace=True)
+    df = df.drop(['genus','oxygen','replicate','week'],axis=1)
+    df = df.head(30)
     return df
 
 def plot_chart(df,oxygen,week,replicate):
     d = Donut(df, label=['class', 'order'], values='abundance',
-          text_font_size='8pt', hover_text='abundance')
+          text_font_size='10pt', hover_text='abundance')
     output_file("donut.html", title=oxygen + "." + str(week) + "." +str(replicate) )
     return show(d)
 
