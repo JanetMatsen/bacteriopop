@@ -208,11 +208,14 @@ def concat_phylo_columns(dataframe):
                 # names like 'Archaea,,,'
                 dataframe['phylo_concat'] = \
                     dataframe['phylo_concat'].astype(str) + ','
-            dataframe['phylo_concat'] = dataframe['phylo_concat'].astype(str) + \
-                                        dataframe[colname]
+            dataframe['phylo_concat'] = \
+                dataframe['phylo_concat'].astype(str) + dataframe[colname]
             dataframe.drop(colname, axis=1, inplace=True)
-        else:
-            return dataframe
+    # strip off trailing commas
+    dataframe['phylo_concat'] = \
+        dataframe['phylo_concat'].astype(str).apply(lambda s: s.rstrip(','))
+    # return completed
+    return dataframe
 
 
 def pivot_for_abundance_matrix(dataframe):
