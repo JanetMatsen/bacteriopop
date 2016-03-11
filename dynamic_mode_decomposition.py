@@ -6,7 +6,8 @@ from sklearn.preprocessing import normalize
 from bacteriopop_utils import prepare_DMD_matrices
 
 
-def find_fixed_adjacency_matrix(min_abundance=0.0, phylo_column='order', full_svd=True):
+def find_fixed_adjacency_matrix(min_abundance=0.0, phylo_column='order',
+                                full_svd=True):
     """
     This function find the adjacency matrix among clusters of bacteria over
     the 11 weeks of sampling assuming the interaction between clusters is
@@ -26,6 +27,11 @@ def find_fixed_adjacency_matrix(min_abundance=0.0, phylo_column='order', full_sv
     tuples as keys.
 
     The names of each node can be accessed by nodes_list, the other output.
+
+    :param min_abundance: minimum abundance to loook for in original data
+    :param phylo_column: most detailed phylogenetic column to consider
+    :param full_svd: if True, runs the full svd algorithm.  If False,
+    runs a faster version.
     """
     # Default values
     if min_abundance is None:
