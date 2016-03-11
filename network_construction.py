@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib import pylab
+import pandas as pd
 import seaborn as sns
 from bokeh.plotting import figure, show, output_file
 from bokeh.models import HoverTool, ColumnDataSource
@@ -126,6 +127,53 @@ def generate_x_y(adj):
     s = adj.shape
     x, y = np.meshgrid(np.arange(s[0]), np.arange(s[1]))
     return x.ravel(), y.ravel()
+
+
+def aggregate_adjacency_matrices(list_of_dfs):
+    # Generalized aggregator.  Will write a wrapper that individually makes
+    # one for each High/Low O2 condition.
+    # Returns yet another dictionary!  (ha ha)
+
+    # Use Pandas panel to gather the replicates, and to make summary
+    # dataframes of the element-by-element averages, standard deviations,
+    # and signal-to-noise.
+    # Note that we are using 0, 1, 2... for keys in the Panel object.  We
+    # could use the descriptive tuples, but there is currently no advantage.
+    p = pd.Panel(data={n: df for n, df in enumerate(list_of_dfs)})
+    # Use this Panel object to make summary statistics.
+    summary_df_dict = {}
+    summary_df_dict['mean'] = p.mean(axis=0)
+    summary_df_dict['standard deviation'] = p.std(axis=0)
+    # to get signal to noise, we need to make a panel of these new dataframes.
+    p2 = pd.Panel(data={n: df for n, df in
+                        enumerate([summary_df_dict['mean'],
+                                  summary_df_dict['standard deviation']])})
+    # todo: figure out how to use our own function to calculate signal to noise
+    # summary_df_dict['signal to noise'] =
+    return summary_df_dict
+
+
+def summarize_replicate_adjacency_matrices(result_dict):
+    # Separate the high and low oxygen results before aggregating.
+    high_oxygen_dfs = []
+    low_oxygen_dfs = []
+    # loop over the results dict.  The keys are tuples like ("Low",
+    # 1) indicating their low/high oxygen content and replicate number.  Use
+    #  the "Low" or "High" string to sort before aggregation.
+    for oxy_rep_tuple in result_dict.keys():
+        if oxy_rep_tuple[0] == "Low":
+            low_oxygen_dfs.append(result_dict[oxy_rep_tuple])
+        else:
+            high_oxygen_dfs.append(result_dict[oxy_rep_tuple])
+    # Now we can pass these lists of dataframes to
+    # aggregate_adjacency_matrices(), which calculates the means and
+    # standard deviations.  This will help us find the important and
+    # reproducible correlations/effects.
+    low_oxy_summary = aggregate_adjacency_matrices(low_oxygen_dfs)
+    high_oxy_summary = aggregate_adjacency_matrices(high_oxygen_dfs)
+    # create a dictionary to hold each dictionary.  Now we are wishing we
+    # had classes!
+    return {"Low":low_oxy_summary, "high":high_oxy_summary}
 
 
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
