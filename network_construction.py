@@ -164,7 +164,7 @@ def adjacency_matrix_hexmap(adj, nodes, figure_title, file_name):
 
 
 def plot_heatmap(dataframe, title, file_name, filetype='pdf',
-                 width=10,height=10):
+                 width=10, height=10):
         ax = plt.axes()
         hmp = sns.heatmap(dataframe, ax=ax)
         ax.set_title(title)
