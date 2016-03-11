@@ -128,38 +128,6 @@ def generate_x_y(adj):
     return x.ravel(), y.ravel()
 
 
-def heatmap(adj, nodes):
-    """
-    This function creates a heat map for the numpy array adj
-
-    :param adj:
-    :param nodes:
-    """
-    x, y = generate_x_y(adj)
-    x_min = 0
-    y_min = 0
-    x_max = len(nodes)-1
-    y_max = len(nodes)-1
-    plt.figure()
-    plt.hexbin(x, y, C=adj.ravel(), gridsize=len(nodes)/2, cmap=cm.jet,
-               bins=None, mincnt=-100, extent=[x_min, x_max, y_min, y_max])
-
-
-def adjacency_matrix_heatmap(Adj, nodes,figure_title, file_name):
-    """
-    This function creates heat maps for the adjacency matrix Adj
-    and save it into the file_name
-    The Adj is in numpy array format
-    nodes is the list of nodes
-    figure_title is a string represnting the tile of the saved figure
-    """
-    heatmap(Adj, nodes)
-    cb = plt.colorbar()
-    cb.set_label('abundance')
-    plt.title(figure_title)
-    plt.savefig(file_name, bbox_inches="tight")
-    # plt.show()
-
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
     for key in mappings_in_pandas:
         file_name=str(key[0])+'_oxygen_week_'+str(key[1])+'.pdf'
