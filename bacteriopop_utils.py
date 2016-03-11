@@ -207,7 +207,7 @@ def concat_phylo_columns(dataframe):
                 # todo: could also check for string != '' so we don't get
                 # names like 'Archaea,,,'
                 dataframe['phylo_concat'] = \
-                    dataframe['phylo_concat'].astype(str) + ','
+                    dataframe['phylo_concat'].astype(str) + ', '
             dataframe['phylo_concat'] = \
                 dataframe['phylo_concat'].astype(str) + dataframe[colname]
             dataframe.drop(colname, axis=1, inplace=True)
