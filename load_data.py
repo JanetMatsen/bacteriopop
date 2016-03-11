@@ -1,12 +1,18 @@
 import pandas as pd
 
 
-def load_data():
+def load_data(data_links_list=(
+        'https://raw.githubusercontent.com/JanetMatsen/bacteriopop/master'
+        '/raw_data/raw_data.csv',
+        'https://raw.githubusercontent.com/JanetMatsen/bacteriopop/master'
+        '/raw_data/sample_meta_info.tsv')):
 
     """Reads two dataframes from Github source, containing sample data
      and meta data and joins them.
      Returns one dataframe with a sampleID index
-     Input type: None
+     Input: Two links to data - first containing raw data, the second
+     containing meta info about the data.
+     Input type: List of strings
      Output type: Pandas dataframe
      Output dataframe index: sampleID
      Output dataframe column labels: 'kingdom', 'phylum', 'class', 'order',
@@ -14,11 +20,9 @@ def load_data():
              'replicate', 'week', 'abundance'"""
 
     # Reading data sets from the links provided.
-    df1 = pd.read_csv("https://raw.githubusercontent.com/JanetMatsen/"
-                      "bacteriopop/master/raw_data/raw_data.csv", 
+    df1 = pd.read_csv(data_links_list[0],
                       error_bad_lines=False)
-    df2 = pd.read_csv('https://raw.githubusercontent.com/JanetMatsen/'
-                      'bacteriopop/master/raw_data/sample_meta_info.tsv',
+    df2 = pd.read_csv(data_links_list[1],
                       sep='\t')
     df2 = df2.set_index(df2['project'])
     # fill the Nas id df1 as ".  Makes the groupbys behave better.
@@ -44,7 +48,6 @@ def load_data():
              'family', 'genus', 'length', 'oxygen',
              'replicate', 'week', 'abundance']]
     assert isinstance(df, pd.DataFrame)
-    # todo?  fill NA values as "other"?
     return df
 
 

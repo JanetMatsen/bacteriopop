@@ -100,7 +100,6 @@ def DMD_results_dict_from_numpy_to_pandas(adj_dict, node_name_dict):
     # todo: assert that the set of keys in both inputs match.
     dict_with_dataframe_values = {}
     for key in adj_dict.keys():
-        print key
         np_to_pd = adjacency_matrix_into_pandas(adj_dict[key],
                                                 node_name_dict[key])
         dict_with_dataframe_values[key] = np_to_pd
@@ -110,11 +109,13 @@ def DMD_results_dict_from_numpy_to_pandas(adj_dict, node_name_dict):
 
 def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     """
-    This function find the adjacency matrix among clusters of bacteria from
-    week to week assuming the interaction between clusters is changing.
-    The algorithm ignore the bacteria with abundance below the min_abundance
-    The data is clustered based on the phylo_column
-    full_svd refers to the method of singular value decomposition. full SVD is
+    Find the adjacency matrix among clusters of bacteria from week to week,
+    assuming the interaction between clusters is changing.
+
+    :param min_abundance: ignore the bacteria if their abundance is always
+    below the min_abundance
+    :param phylo_column: the data is clustered based on the phylo_column
+    :param full_svd:the method of singular value decomposition. full SVD is
     more accurate and slower than the reduced SVD
     """
     # Default values
@@ -125,6 +126,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     if full_svd is None:
         full_svd = False
     # snapshots of samples over 11 weeks
+    # todo: python reserves capital letters for classes.
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
     nodes_list = {}
@@ -150,6 +152,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
             # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
+            # todo: pycharm says the key defined below isn't used.
             key = descriptive_tuple + ('Week ' + str(time+1), )
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
@@ -166,53 +169,83 @@ def aggregate_adjacency_matrix_over_replicates(mappings):
                     the adjacency matrices for all 8 replicates including
                     4 high O2 and 4 low O2
     :return:
-           avg_mappings: a dictionary of pandas data frame for low and high replicates mean
-           std_mappings: a dictionary of pandas data frame for low and high replicates standard deviation
-           snr_mappings: a dictionary of pandas data frame for low and high replicates signal to noise ratio
+           avg_mappings: a dictionary of pandas data frame for low and high
+                         replicates mean
+           std_mappings: a dictionary of pandas data frame for low and high
+                         replicates standard deviation
+           snr_mappings: a dictionary of pandas data frame for low and high
+                         replicates signal to noise ratio
     """
     std_mappings = {}
     avg_mappings = {}
     snr_mappings = {}
+    current_nodes = {}
     high_rep_mappings = []
     low_rep_mappings = []
-    current_nodes_low = set([])
-    current_nodes_high = set([])
-    #creat two lists, one for each high or low replicates including all labels observed
-    # in replicates
+    current_nodes['Low'] = set([])
+    current_nodes['High'] = set([])
+
+    # create two lists, one for each high or low replicates including all
+    # labels observed in replicates
     for key in mappings.keys():
         if key[0] == "High":
-            current_nodes_high = current_nodes_high.union(mappings[key].index)
+            current_nodes['High'] = \
+                current_nodes['High'].union(mappings[key].index)
         else:
-            current_nodes_low = current_nodes_low.union(mappings[key].index)
+            current_nodes['Low'] = \
+                current_nodes['Low'].union(mappings[key].index)
+
     # add the missing label to each replicate
     for key in mappings.keys():
-        # todo: the shape of numpy arrays are not all the same but they should be len(current_nodes_high)
         if key[0] == "High":
-            for id in current_nodes_high:
+            for id in current_nodes['High']:
                     if id not in mappings[key].index:
                         # add one column
-                        mappings[key][id]=[0.0]*len(mappings[key].index)
+                        mappings[key][id] = [0.0]*len(mappings[key].index)
                         # add one row
-                        mappings[key].loc[id]=[0.0]*len(mappings[key].columns)
+                        mappings[key].loc[id] = \
+                            [0.0]*len(mappings[key].columns)
+            # sort the index and columns labels of data frame in order to
+            # have an identical ordering in the adjacency matrix
+            mappings[key] = mappings[key].sort_index(axis=1)
+            mappings[key] = mappings[key].sort_index()
             high_rep_mappings.append(mappings[key].values)
         else:
-            for id in current_nodes_low:
+            for id in current_nodes['Low']:
                     if id not in mappings[key].index:
                         # add one column
-                        mappings[key][id]=[0.0]*len(mappings[key].index)
+                        mappings[key][id] = [0.0]*len(mappings[key].index)
                         # add one column
-                        mappings[key].loc[id]=[0.0]*len(mappings[key].columns)
+                        mappings[key].loc[id] = \
+                            [0.0]*len(mappings[key].columns)
+            # sort the index and columns labels of data frame in order to have
+            # an identical ordering in the adjacency matrix
+            mappings[key] = mappings[key].sort_index(axis=1)
+            mappings[key] = mappings[key].sort_index()
             low_rep_mappings.append(mappings[key].values)
-    # find the element by element average of adjacency matrix over replicates of high/low O2
-    avg_mappings['High'] = np.mean(high_rep_mappings,level=0)
-    avg_mappings['Low'] = np.mean(low_rep_mappings, level=0)
-    # find the element by element STD of adjacency matrix over replicates of high/low O2
-    std_mappings['High'] = np.std(high_rep_mappings,level=0, ddof=1)
-    std_mappings['Low'] = np.std(low_rep_mappings, level=0, ddof=1)
-    # find the element by element SNR of adjacency matrix over replicates of high/low O2
+
+    # find the element by element average of adjacency matrix over replicates
+    # of high/low O2
+    avg_mappings['High'] = np.mean(high_rep_mappings, axis=0)
+    avg_mappings['Low'] = np.mean(low_rep_mappings, axis=0)
+    # convert from numpy array to pandas dataframe
+    avg_mappings = DMD_results_dict_from_numpy_to_pandas(avg_mappings,
+                                                         current_nodes)
+
+    # find the element by element STD of adjacency matrix over replicates of
+    # high/low O2
+    std_mappings['High'] = np.std(high_rep_mappings, axis=0, ddof=1)
+    std_mappings['Low'] = np.std(low_rep_mappings, axis=0, ddof=1)
+    # convert from numpy array to pandas dataframe
+    std_mappings = DMD_results_dict_from_numpy_to_pandas(std_mappings,
+                                                         current_nodes)
+
+    # find the element by element SNR of adjacency matrix over replicates of
+    # high/low O2
     snr_mappings['High'] = avg_mappings['High']/std_mappings['High']
     snr_mappings['Low'] = avg_mappings['Low'] / std_mappings['Low']
+    # convert from numpy array to pandas dataframe
+    snr_mappings = DMD_results_dict_from_numpy_to_pandas(snr_mappings,
+                                                         current_nodes)
 
     return std_mappings, avg_mappings, snr_mappings
-
-
