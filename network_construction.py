@@ -129,7 +129,7 @@ def generate_x_y(adj):
     return x.ravel(), y.ravel()
 
 
-def heatmap(adj, nodes):
+def hexmap(adj, nodes):
     """
     This function creates a hex bin plot for the numpy array adj
 
@@ -146,7 +146,7 @@ def heatmap(adj, nodes):
                bins=None, mincnt=-100, extent=[x_min, x_max, y_min, y_max])
 
 
-def adjacency_matrix_heatmap(adj, nodes, figure_title, file_name):
+def adjacency_matrix_hexmap(adj, nodes, figure_title, file_name):
     """
     This function creates heat maps for the adjacency matrix Adj and save it
     into the file_name The Adj is in numpy array format
@@ -155,12 +155,23 @@ def adjacency_matrix_heatmap(adj, nodes, figure_title, file_name):
     :param figure_title: string to use for the title
     :param file_name: the file name to save the figure with.
     """
-    heatmap(adj, nodes)
+    hexmap(adj, nodes)
     cb = plt.colorbar()
     cb.set_label('abundance')
     plt.title(figure_title)
     plt.savefig(file_name, bbox_inches="tight")
     # plt.show()
+
+
+def plot_heatmap(dataframe, title, file_name):
+        ax = plt.axes()
+        hmp = sns.heatmap(dataframe, ax=ax)
+        ax.set_title(title)
+        hmp.figure.set_figwidth(10)
+        hmp.figure.set_figheight(10)
+        hmp.figure
+        hmp.figure.savefig(file_name, bbox_inches='tight')
+        plt.clf()
 
 
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
@@ -171,13 +182,8 @@ def plot_all_adjacency_heatmaps(mappings_in_pandas):
     for key in mappings_in_pandas:
         file_name = 'plots/' + str(key[0]) + '_oxygen_week_' + \
                     str(key[1]) + '.pdf'
-        ax = plt.axes()
-        hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
-        ax.set_title(str(key[0])+' oxygen, week '+str(key[1]))
-        hmp.figure.set_figwidth(10)
-        hmp.figure.set_figheight(10)
-        hmp.figure
-        hmp.figure.savefig(file_name, bbox_inches='tight')
+        title = str(key[0])+' oxygen, week '+str(key[1])
+        plot_heatmap(mappings_in_pandas[key], title, file_name)
         plt.clf()
 
 
