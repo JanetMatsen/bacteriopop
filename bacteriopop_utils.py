@@ -213,7 +213,7 @@ def concat_phylo_columns(dataframe):
             dataframe.drop(colname, axis=1, inplace=True)
     # strip off trailing commas
     dataframe['phylo_concat'] = \
-        dataframe['phylo_concat'].astype(str).apply(lambda s: s.rstrip(','))
+        dataframe['phylo_concat'].astype(str).apply(lambda s: s.rstrip(', '))
     # return completed
     return dataframe
 
