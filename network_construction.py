@@ -161,11 +161,32 @@ def adjacency_matrix_heatmap(Adj, nodes,figure_title, file_name):
     # plt.show()
 
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
+    """
+    plot and save the heat maps of the matrices given in pandas data frame
+    """
     for key in mappings_in_pandas:
         file_name=str(key[0])+'_oxygen_week_'+str(key[1])+'.pdf'
         ax = plt.axes()
         hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
         ax.set_title(str(key[0])+' oxygen, week '+str(key[1]))
+        hmp.figure.set_figwidth(10)
+        hmp.figure.set_figheight(10)
+        hmp.figure
+        hmp.figure.savefig(file_name,bbox_inches='tight')
+        plt.clf()
+
+def plot_aggregated_adjacency_heatmaps(mappings_in_pandas, type='Mean'):
+    """
+    plot and save the heat maps of the matrices given in pandas data frame
+    mappings_in_pandas: is dictionary that contains two elements, including
+                        information for 'High' and 'Low' replicates
+    type: the type of matrices to be plotted such as Mean, STD, SNR
+    """
+    for key in mappings_in_pandas:
+        file_name=key+"_replicates_"+type+'.pdf'
+        ax = plt.axes()
+        hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
+        ax.set_title(key+' replicates '+ type)
         hmp.figure.set_figwidth(10)
         hmp.figure.set_figheight(10)
         hmp.figure
