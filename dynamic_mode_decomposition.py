@@ -126,6 +126,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
     if full_svd is None:
         full_svd = False
     # snapshots of samples over 11 weeks
+    # todo: python reserves capital letters for classes.
     snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
     linear_mappings = {}
     nodes_list = {}
@@ -151,6 +152,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
             # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
+            # todo: pycharm says the key defined below isn't used.
             key = descriptive_tuple + ('Week ' + str(time+1), )
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
@@ -183,8 +185,8 @@ def aggregate_adjacency_matrix_over_replicates(mappings):
     current_nodes['Low'] = set([])
     current_nodes['High'] = set([])
 
-    # creat two lists, one for each high or low replicates including all labels
-    # observed in replicates
+    # create two lists, one for each high or low replicates including all
+    # labels observed in replicates
     for key in mappings.keys():
         if key[0] == "High":
             current_nodes['High'] = \
