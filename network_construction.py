@@ -163,12 +163,13 @@ def adjacency_matrix_hexmap(adj, nodes, figure_title, file_name):
     # plt.show()
 
 
-def plot_heatmap(dataframe, title, file_name):
+def plot_heatmap(dataframe, title, file_name, filetype='pdf',
+                 width=10,height=10):
         ax = plt.axes()
         hmp = sns.heatmap(dataframe, ax=ax)
         ax.set_title(title)
-        hmp.figure.set_figwidth(10)
-        hmp.figure.set_figheight(10)
+        hmp.figure.set_figwidth(width)
+        hmp.figure.set_figheight(height)
         hmp.figure
         hmp.figure.savefig(file_name, bbox_inches='tight')
         plt.clf()
@@ -181,7 +182,7 @@ def plot_all_adjacency_heatmaps(mappings_in_pandas):
     """
     for key in mappings_in_pandas:
         file_name = 'plots/' + str(key[0]) + '_oxygen_week_' + \
-                    str(key[1]) + '.pdf'
+                    str(key[1])
         title = str(key[0])+' oxygen, week '+str(key[1])
         plot_heatmap(mappings_in_pandas[key], title, file_name)
         plt.clf()
@@ -194,8 +195,9 @@ def plot_aggregated_adjacency_heatmaps(mappings_in_pandas, dtype='Mean'):
     including information for 'High' and 'Low' replicates
     :param dtype: the type of matrices to be plotted such as Mean, STD, SNR
     """
+    # Todo: simplify by using plot_heatmap()
     for key in mappings_in_pandas:
-        file_name = 'plots/'+key+"_oxygen_replicates_" + dtype + '.pdf'
+        file_name = 'plots/'+key+"_oxygen_replicates_" + dtype
         ax = plt.axes()
         hmp = sns.heatmap(mappings_in_pandas[key], ax=ax)
         ax.set_title(key + ' oxygen replicates ' + dtype)
