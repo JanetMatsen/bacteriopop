@@ -186,6 +186,7 @@ def aggregate_adjacency_matrix_over_replicates(mappings):
             current_nodes_low = current_nodes_low.union(mappings[key].index)
     # add the missing label to each replicate
     for key in mappings.keys():
+        # todo: the shape of numpy arrays are not all the same but they should be len(current_nodes_high)
         if key[0] == "High":
             for id in current_nodes_high:
                     if id not in mappings[key].index:
