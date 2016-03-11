@@ -62,7 +62,7 @@ def save_graph(graph,file_name):
     plt.xlim(0, xmax)
     plt.ylim(0, ymax)
 
-    plt.savefig(file_name, bbox_inches="tight")
+    plt.savefig('plots/'+file_name, bbox_inches="tight")
     pylab.close()
     del fig
 
@@ -165,7 +165,7 @@ def plot_all_adjacency_heatmaps(mappings_in_pandas):
     plot and save the heat maps of the matrices given in pandas data frame
     """
     for key in mappings_in_pandas:
-        file_name=str(key[0])+'_oxygen_week_'+str(key[1])+'.pdf'
+        file_name='plots/'+str(key[0])+'_oxygen_week_'+str(key[1])+'.pdf'
         ax = plt.axes()
         hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
         ax.set_title(str(key[0])+' oxygen, week '+str(key[1]))
@@ -183,10 +183,10 @@ def plot_aggregated_adjacency_heatmaps(mappings_in_pandas, type='Mean'):
     type: the type of matrices to be plotted such as Mean, STD, SNR
     """
     for key in mappings_in_pandas:
-        file_name=key+"_replicates_"+type+'.pdf'
+        file_name='plots/'+key+"_oxygen_replicates_"+type+'.pdf'
         ax = plt.axes()
         hmp = sns.heatmap(mappings_in_pandas[key],ax=ax)
-        ax.set_title(key+' replicates '+ type)
+        ax.set_title(key+' oxygen replicates '+ type)
         hmp.figure.set_figwidth(10)
         hmp.figure.set_figheight(10)
         hmp.figure
