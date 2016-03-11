@@ -167,29 +167,45 @@ def aggregate_adjacency_matrix_over_replicates(mappings):
     std_mappings = {}
     avg_mappings = {}
     snr_mappings = {}
-    high_rep_mappings=[]
-    low_rep_mappings=[]
-    #creat two lists, one for each high or low replicates
+    high_rep_mappings = []
+    low_rep_mappings = []
+    current_nodes_low = set([])
+    current_nodes_high = set([])
+    #creat two lists, one for each high or low replicates including all labels observed
+    # in replicates
     for key in mappings.keys():
         if key[0] == "High":
-            high_rep_mappings.append(mappings[key])
+            current_nodes_high = current_nodes_high.union(mappings[key].index)
         else:
-            low_rep_mappings.append(mappings[key])
-    #concatenate the data frames across replicates since they have different dimensions across replicates
-    pd_high_rep = pd.concat(high_rep_mappings)
-    pd_low_rep = pd.concat(low_rep_mappings)
-    # fill the missing values in the concatenated matrix by 0
-    pd_high_rep.fillna(0)
-    pd_low_rep.fillna(0)
-    # todo: double check if it's using the right functionality of pandas
+            current_nodes_low = current_nodes_low.union(mappings[key].index)
+    # add the missing label to each replicate
+    for key in mappings.keys():
+        if key[0] == "High":
+            for id in current_nodes_high:
+                    if id not in mappings[key].index:
+                        # add one column
+                        mappings[key][id]=[0.0]*len(mappings[key].index)
+                        # add one row
+                        mappings[key].loc[id]=[0.0]*len(mappings[key].columns)
+            high_rep_mappings.append(mappings[key].values)
+        else:
+            for id in current_nodes_low:
+                    if id not in mappings[key].index:
+                        # add one column
+                        mappings[key][id]=[0.0]*len(mappings[key].index)
+                        # add one column
+                        mappings[key].loc[id]=[0.0]*len(mappings[key].columns)
+            low_rep_mappings.append(mappings[key].values)
     # find the element by element average of adjacency matrix over replicates of high/low O2
-    avg_mappings['High'] = pd_high_rep.groupby(level=0).mean()
-    avg_mappings['Low'] = pd_low_rep.groupby(level=0).mean()
+    avg_mappings['High'] = np.mean(high_rep_mappings,level=0)
+    avg_mappings['Low'] = np.mean(low_rep_mappings, level=0)
     # find the element by element STD of adjacency matrix over replicates of high/low O2
-    std_mappings['High'] = pd_high_rep.groupby(level=0).std()
-    std_mappings['Low'] = pd_low_rep.groupby(level=0).std()
+    std_mappings['High'] = np.std(high_rep_mappings,level=0, ddof=1)
+    std_mappings['Low'] = np.std(low_rep_mappings, level=0, ddof=1)
     # find the element by element SNR of adjacency matrix over replicates of high/low O2
     snr_mappings['High'] = avg_mappings['High']/std_mappings['High']
     snr_mappings['Low'] = avg_mappings['Low'] / std_mappings['Low']
 
     return std_mappings, avg_mappings, snr_mappings
+
+
