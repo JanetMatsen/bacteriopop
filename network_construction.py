@@ -71,17 +71,6 @@ def save_graph(graph, file_name):
     del fig
 
 
-def generate_x_y(adj):
-    """
-    This function creates a meshgrid for the adjacecny matrix in x-y plane
-
-    :param adj:
-    """
-    s = adj.shape
-    x, y = np.meshgrid(np.arange(s[0]), np.arange(s[1]))
-    return x.ravel(), y.ravel()
-
-
 def aggregate_adjacency_matrices(list_of_dfs):
     # Generalized aggregator.  Will write a wrapper that individually makes
     # one for each High/Low O2 condition.
