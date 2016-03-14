@@ -71,54 +71,6 @@ def save_graph(graph, file_name):
     del fig
 
 
-def reduce_adjacency_matrix(adj, nodes, edge_threshold):
-    """
-    This function removes some rows and columns of the adjacency matrix
-    according to their correlation with other elements in the adjacency
-    matrix and returns a new (smaller) numpy array for adjacency and the
-    new list of nodes considered in the matrix.
-    :param adj: adjacency matrix
-    :param nodes: name of nodes (row and column names)
-    :param edge_threshold: minimum magnitude to search for and include
-    """
-    n = len(nodes)
-    new_nodes_index = []
-    kept_nodes_names = []
-    # todo: return the names of the reduced data's rows, columns instead of
-    # the index.
-
-    # loop over the nodes (which is both a row and column) and look for
-    # interactions that have greater magnitude than the specified
-    # edge_threshold
-    for node1 in range(n):
-        remove = True
-        for node2 in range(n):
-            # look for whether this pair has a significant interaction.
-            if abs(adj[node1][node2]) > edge_threshold or \
-                            abs(adj[node2][node1]) > edge_threshold:
-                remove = False
-        if not remove:
-            new_nodes_index.append(node1)
-            kept_nodes_names.append(nodes[node1])
-    new_adj = np.zeros([len(new_nodes_index), len(new_nodes_index)])
-    for i, node1 in enumerate(new_nodes_index):
-        for j, node2 in enumerate(new_nodes_index):
-            new_adj[i][j] = adj[node1][node2]
-    return new_adj, kept_nodes_names
-
-
-def reduce_all_adjacency_matrixes_in_dict(adjacency_dict, node_dict,
-                                          edge_threshold):
-    reduced_array_dict = {}
-    reduced_node_dict = {}
-    for key in adjacency_dict.keys():
-        reduced_array_dict[key], reduced_node_dict[key] = \
-            reduce_adjacency_matrix(adjacency_dict[key],
-                                    node_dict[key],
-                                    edge_threshold)
-    return reduced_array_dict, reduced_node_dict
-
-
 def generate_x_y(adj):
     """
     This function creates a meshgrid for the adjacecny matrix in x-y plane
