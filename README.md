@@ -10,6 +10,12 @@ Population dynamics for abundances calculated from meta-omics sequencing
 <li>    Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 </ol>
 
+Visit our:
+<ol>
+<li><a href = "https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17"> Technology Review </a>
+<li><a href = "https://docs.google.com/presentation/d/1Fndc-2GX0K46gXjrjN7TdrYgU6xtomDJBz4vYtf2edc/edit#slide=id.p4"> Project Poster </a>
+</ol>
+
 <b> Tools: </b>
 
 |<p align="center"> Name| <p align="center">Source package | <p align="center">Description | <p align="center"> Output  |
@@ -18,9 +24,6 @@ Population dynamics for abundances calculated from meta-omics sequencing
 | <p align="left">  NetworkX| <p align="center"> Third party library NetworkX|<p align="left">Software package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks|<p align="left"> Classic graphs, random graphs, and synthetic networks with any kind of node (e.g. text, images, XML records) and edges holding arbitrary data (e.g. weights, time-series) |
 | <p align="left">  Density-based spatial clustering of applications with noise (DBSCAN)| <p align="center"> Python scikit-learn| <p align="left">Density-based data clustering algorithm that groups together points that are closely packed together, marking as outliers points that lie alone in low-density regions| <p align="left">Clusters of data points with performance metrics|
 |  <p align="left"> Gaussian Mixture Models (GMM)|   <p align="center"> Python scikit-learn|<p align="left">Parametric probability density function that generates all data points from weighted sum of Gaussian component densities with unknown parameters|  <p align="left">Clusters of data points with performance metrics|
-
-<b> Technology Review: </b>
-* [Technology Review Presentation](https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17)
 
 <b> Directory Structure:
 
