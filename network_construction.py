@@ -166,16 +166,34 @@ def summarize_replicate_adjacency_matrices(result_dict):
     return {"Low": low_oxy_summary, "high": high_oxy_summary}
 
 
-def plot_heatmap(dataframe, title, file_name, filetype='pdf',
+def plot_heatmap(dataframe, title=None, file_name=None, filetype='pdf',
                  width=10, height=10):
-        ax = plt.axes()
-        hmp = sns.heatmap(dataframe, ax=ax)
+    """
+    Plot a heat map of any data frame.
+
+    :param dataframe: data to plot as a heat map
+    :param title: optional title
+    :param file_name: optional filename
+    :param filetype: optional filetype
+    :param width: figure width (inches)
+    :param height: figue height (inches)
+    :return: a seaborn heat map, whic was saved if file_name was provided.
+    """
+    ax = plt.axes()
+    # generate a seaborn heatmap on the axis ax
+    hmp = sns.heatmap(dataframe, ax=ax)
+    # add a title if it was passed to the function
+    if title:
         ax.set_title(title)
-        hmp.figure.set_figwidth(width)
-        hmp.figure.set_figheight(height)
-        hmp.figure
-        hmp.figure.savefig(file_name, bbox_inches='tight')
-        plt.clf()
+    # adjust the figure size
+    hmp.figure.set_figwidth(width)
+    hmp.figure.set_figheight(height)
+    # display the figure
+    hmp.figure
+    if file_name:
+        hmp.figure.savefig(file_name + filetype, bbox_inches='tight')
+    # clear the plot
+    plt.clf()
 
 
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
