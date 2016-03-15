@@ -193,16 +193,20 @@ def plot_heatmap(dataframe, title=None, file_name=None, file_type='pdf',
     return hmp
 
 
+def o2_rep_tuple_to_string(o2_rep_tuple):
+    return str(o2_rep_tuple[0]) + '_oxygen_week_' + str(o2_rep_tuple[1])
+
+
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
     """
     plot and save the heat maps of the matrices given in pandas data frame
     :param mappings_in_pandas:
     """
     for key in mappings_in_pandas:
-        file_name = 'plots/' + str(key[0]) + '_oxygen_week_' + \
-                    str(key[1])
+        file_name = 'plots/' + o2_rep_tuple_to_string(key)
         title = str(key[0])+' oxygen, week '+str(key[1])
-        plot_heatmap(mappings_in_pandas[key], title, file_name)
+        plot_heatmap(mappings_in_pandas[key], title, file_name,
+                     file_type='.pdf')
         plt.clf()
 
 
