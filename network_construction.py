@@ -166,7 +166,7 @@ def summarize_replicate_adjacency_matrices(result_dict):
     return {"Low": low_oxy_summary, "high": high_oxy_summary}
 
 
-def plot_heatmap(dataframe, title=None, file_name=None, filetype='pdf',
+def plot_heatmap(dataframe, title=None, file_name=None, file_type='pdf',
                  width=10, height=10):
     """
     Plot a heat map of any data frame.
@@ -188,12 +188,9 @@ def plot_heatmap(dataframe, title=None, file_name=None, filetype='pdf',
     # adjust the figure size
     hmp.figure.set_figwidth(width)
     hmp.figure.set_figheight(height)
-    # display the figure
-    hmp.figure
     if file_name:
-        hmp.figure.savefig(file_name + filetype, bbox_inches='tight')
-    # clear the plot
-    plt.clf()
+        hmp.figure.savefig(file_name + file_type, bbox_inches='tight')
+    return hmp
 
 
 def plot_all_adjacency_heatmaps(mappings_in_pandas):
