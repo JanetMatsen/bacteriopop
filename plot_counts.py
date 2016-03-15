@@ -7,7 +7,12 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 
 def plot_counts():
-
+    """
+    Function plots the number of unique categories of each taxonomic rank
+    Inputs: None
+    Output: Plot of counts vs rank
+    Output type: .pdf
+    """
     df = load_data()
     counts = np.zeros(6)
     for i in range(len(counts)):
