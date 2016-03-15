@@ -41,7 +41,7 @@ def find_fixed_adjacency_matrix(min_abundance=0.0, phylo_column='order',
     if full_svd is None:
         full_svd = False
     # snapshots of samples over 11 weeks
-    snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
+    snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all',debug=False)
     linear_mappings = {}
     nodes_list = {}
     for descriptive_tuple in snapshots.keys():
@@ -97,7 +97,8 @@ def adjacency_matrix_into_pandas(mappings_array, row_and_colnames):
 def DMD_results_dict_from_numpy_to_pandas(adj_dict, node_name_dict):
     # transform our dict of descriptive tuple:numpy array pairs into a dict of
     # descriptive tuple:pandas dataframe dict.
-    # todo: assert that the set of keys in both inputs match.
+    # assert that the set of keys in both inputs match.
+    assert (set(adj_dict.keys())== set(node_name_dict.keys()))
     dict_with_dataframe_values = {}
     for key in adj_dict.keys():
         np_to_pd = adjacency_matrix_into_pandas(adj_dict[key],
@@ -127,7 +128,7 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
         full_svd = False
     # snapshots of samples over 11 weeks
     # todo: python reserves capital letters for classes.
-    snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all')
+    snapshots = prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all', debug=False)
     linear_mappings = {}
     nodes_list = {}
     for descriptive_tuple in snapshots.keys():
@@ -149,11 +150,6 @@ def find_temporal_adjacency_matrix(min_abundance, phylo_column, full_svd):
                 S = np.diag(s)
                 pseu_inv_x = np.dot(np.linalg.inv(V),
                                 np.dot(np.linalg.inv(S), np.linalg.pinv(U)))
-            # Adjacency matrix between clusters
-            A = np.dot(Y, pseu_inv_x)
-            # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)
-            # todo: pycharm says the key defined below isn't used.
-            key = descriptive_tuple + ('Week ' + str(time+1), )
             # Adjacency matrix between clusters
             A = np.dot(Y, pseu_inv_x)
             # A = np.dot(Y, np.linalg.pinv(X))  # full SVD (slower)

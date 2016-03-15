@@ -99,7 +99,7 @@ def check_abundances_sums(dataframe):
 
 
 def filter_by_abundance(dataframe, low, abundance_column='abundance',
-                        phylo_column='genus'):
+                        phylo_column='genus', debug=False):
     """
     Return only rows where the specified phylo_colum's set of rows have at
     least one value of abundance_column in range(low, high)
@@ -121,8 +121,9 @@ def filter_by_abundance(dataframe, low, abundance_column='abundance',
     # get a list of the phylo_column names that meet our criteria.
     phylo_column_values_to_keep = \
         dataframe[(dataframe[abundance_column] >= low)][phylo_column].unique()
-    print "first (up to) 5 phylo columns to "
-    print "keep: {}".format(phylo_column_values_to_keep[0:5])
+    if debug:
+        print "first (up to) 5 phylo columns to "
+        print "keep: {}".format(phylo_column_values_to_keep[0:5])
     # Return ALL rows for a phylo_column label if ANY of the rows had an
     # abundance value in the desired range.
 
@@ -166,10 +167,10 @@ def reduce_data(dataframe, min_abundance, phylo_column='genus', oxygen="all"):
     return filter_by_abundance(dataframe=dataframe,
                                abundance_column='abundance',
                                low=min_abundance,
-                               phylo_column=phylo_column)
+                               phylo_column=phylo_column, debug=False)
 
 
-def break_apart_experiments(dataframe):
+def break_apart_experiments(dataframe, debug=False):
     """
     break apart experiments according to week and oxygen into a dictionary
     of descriptive tuple keys and Pandas DataFrame values.
@@ -185,9 +186,11 @@ def break_apart_experiments(dataframe):
     dataframe_dict = {}
     for descriptive_tuple, gb_df in dataframe.groupby(by=['oxygen',
                                                           'replicate']):
-        print descriptive_tuple
+        if debug:
+            print descriptive_tuple
         dataframe_dict[descriptive_tuple] = gb_df
-    print 'dictionary keys: {}'.format(dataframe_dict.keys())
+    if debug:
+        print 'dictionary keys: {}'.format(dataframe_dict.keys())
     return dataframe_dict
 
 
@@ -241,7 +244,7 @@ def pivot_for_abundance_matrix(dataframe):
                            values='abundance')
 
 
-def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
+def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all',debug=False):
     """
     Wrapper function simplifying, aggregating, and massaging data into the
     format desired for DMD: rows are taxonomic information and columns are
@@ -264,7 +267,8 @@ def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
     dataframe_dict = break_apart_experiments(dataframe)
     # for each dataframe in the dictionary, pivot them so abundance is the
     # value in the matrix.  Rows are phylogeny.  Columns are week.
-    print "dataframe_dict.keys(): {}".format(dataframe_dict.keys())
+    if debug :
+        print "dataframe_dict.keys(): {}".format(dataframe_dict.keys())
     for descriptive_tuple, df in dataframe_dict.items():
         # todo: make sure oxygen and replicate values are homogeneous within
         #  this df
@@ -274,7 +278,8 @@ def prepare_DMD_matrices(min_abundance, phylo_column, oxygen='all'):
                                               'Expected 11.'
         pivoted_df = pivot_for_abundance_matrix(df)
         pivoted_df = pivoted_df.fillna(0)
-        print pivoted_df.head()
+        if debug:
+            print pivoted_df.head()
         dataframe_dict[descriptive_tuple] = pivoted_df
     # check that it worked
     # todo: add a sensible assertion.
