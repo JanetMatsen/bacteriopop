@@ -109,6 +109,14 @@ def reduce_adjacency_matrix(adj, nodes, edge_threshold):
 
 def reduce_all_adjacency_matrixes_in_dict(adjacency_dict, node_dict,
                                           edge_threshold):
+    """
+    This function iterate over all replicates in the adjacency_dict
+    which include 4 high O2 and 4 low O2 samples and applies the
+    construct a new adjacency matrix based on the edge_treshold.
+    edge_treshhold represents the minimum amount of interaction
+    between bacteria needed to be considered as an edge in the
+    network of bacteria.
+    """
     reduced_array_dict = {}
     reduced_node_dict = {}
     for key in adjacency_dict.keys():
@@ -120,6 +128,11 @@ def reduce_all_adjacency_matrixes_in_dict(adjacency_dict, node_dict,
 
 
 def aggregate_adjacency_matrices(list_of_dfs):
+    """
+    This function take the list of all adjacency matrices found for each high/low
+    replicate and calculate the mean, standard deviation and signal to noise ratio
+    over the 4 replicates in high/low groups.
+    """
     # Generalized aggregator.  Will write a wrapper that individually makes
     # one for each High/Low O2 condition.
     # Returns yet another dictionary!  (ha ha)
@@ -144,7 +157,10 @@ def aggregate_adjacency_matrices(list_of_dfs):
 
 
 def summarize_replicate_adjacency_matrices(result_dict):
-    # Separate the high and low oxygen results before aggregating.
+    """
+    This function separates the high and low oxygen results before aggregating.
+    The output is a dictionary of dictionaries.
+    """
     high_oxygen_dfs = []
     low_oxygen_dfs = []
     # loop over the results dict.  The keys are tuples like ("Low",
@@ -194,6 +210,10 @@ def plot_heatmap(dataframe, title=None, file_name=None, file_type='pdf',
 
 
 def o2_rep_tuple_to_string(o2_rep_tuple):
+    """
+    this function create a string description for a sample
+    called o2_rep_tuple
+    """
     return str(o2_rep_tuple[0]) + '_oxygen_week_' + str(o2_rep_tuple[1])
 
 
