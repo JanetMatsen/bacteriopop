@@ -7,7 +7,7 @@ Population dynamics for abundances calculated from meta-omics sequencing
 <li>    88 samples: 4 replicates of high oxygen, 4 replicates of low oxygen, and 11 samples per replicate. 
 <li>    Sequenced for 11 weeks:  week 4 - 14. 
 <li>    Oxygen conditions were switched for the last 4 samples. 
-<li>    Organisms "phylogeny" is described by: Kingdom, Phylum, Class	Order, Family, Genus
+<li>    Organisms "taxonomy" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 </ol>
 
 Visit our:
@@ -36,3 +36,14 @@ The Apache License allows us to manage the software package as we please, while 
 
 </div><hr>
 
+
+<b> Next Steps: </b>
+<ol>
+<li>    Make one A matrix per sample per replicate (2*4*10 A matrices) & compare to the current results with one A per replicate.  
+<li>    Test normalization of data before finding the A matrices so total abundance doesn't dominate signal. Remove taxa with small abundances first. 
+<li>    Plot networks as node graphs now that data reduction tools are ready
+<li>    Train on a subset of the data and see how predictive it is for the rest
+<li>    Compare including vs omitting the last 4 samples of each series, which have the oxygen tension reversed. 
+<li>    Do multiple hypothesis corrections, and use this to guide the cutoff for plotting and further analysis. 
+<li>    Connect these mathematical results to our real biological questions. 
+</ol>
