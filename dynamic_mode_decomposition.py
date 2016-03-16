@@ -54,7 +54,7 @@ def find_fixed_adjacency_matrix(min_abundance=0.0, phylo_column='order',
         Y = normalize(Y, axis=0)
         U, s, V = np.linalg.svd(X, full_matrices=full_svd)
         if full_svd is True:  # slower
-            S = np.zeros((len(U), len(s)), dtype=complex)
+            S = np.zeros((len(U), len(s)), dtype=float)
             S[:len(s), :len(s)] = np.diag(s)
             pseu_inv_x = np.dot(np.linalg.inv(V),
                                 np.dot(np.linalg.pinv(S), np.linalg.inv(U)))
@@ -245,3 +245,4 @@ def aggregate_adjacency_matrix_over_replicates(mappings):
                                                          current_nodes)
 
     return std_mappings, avg_mappings, snr_mappings
+
