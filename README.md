@@ -14,7 +14,7 @@ Population dynamics for abundances calculated from meta-omics sequencing in bact
 Visit our:
 <ul>
 <li><a href = "https://docs.google.com/presentation/d/1D-DkrJsDJCglwkg9zL4Mdhlwke5hMF6LYhDwvJKBrQc/edit?ts=56ce5662#slide=id.g11bd0970be_0_17"> Technology Review </a>
-<li><a href = "https://docs.google.com/presentation/d/1Fndc-2GX0K46gXjrjN7TdrYgU6xtomDJBz4vYtf2edc/edit#slide=id.p4"> Project Poster </a> on Google Slides or <a href "https://github.com/JanetMatsen/bacteriopop/raw/master/maker_files/Bacteripop_poster.pdf"> click here </a>for a pdf
+<li><a href = "https://docs.google.com/presentation/d/1Fndc-2GX0K46gXjrjN7TdrYgU6xtomDJBz4vYtf2edc/edit#slide=id.p4"> Project Poster </a> on Google Slides or <a href "https://www.dropbox.com/s/4h0f75g32my7q5q/Bacteripop_poster.pdf?dl=0"> click here </a>for a pdf
 </ul>
 
 <b> Tools used in this project: </b>
