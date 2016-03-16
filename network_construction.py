@@ -147,12 +147,12 @@ def aggregate_adjacency_matrices(list_of_dfs):
     summary_df_dict = {}
     summary_df_dict['mean'] = p.mean(axis=0)
     summary_df_dict['standard deviation'] = p.std(axis=0)
+    summary_df_dict['signal to noise'] = summary_df_dict['mean']/summary_df_dict['standard deviation']
     # to get signal to noise, we need to make a panel of these new dataframes.
     p2 = pd.Panel(data={n: df for n, df in
                         enumerate([summary_df_dict['mean'],
-                                  summary_df_dict['standard deviation']])})
-    # todo: figure out how to use our own function to calculate signal to noise
-    # summary_df_dict['signal to noise'] =
+                                  summary_df_dict['standard deviation'],
+                                  summary_df_dict['signal to noise']])})
     return summary_df_dict
 
 
