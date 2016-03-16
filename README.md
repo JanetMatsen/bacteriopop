@@ -2,27 +2,18 @@
 
 # Analysis of Bacterial Community Compositions
 
-
-
 Population dynamics for abundances calculated from meta-omics sequencing in bacterial community samples from Lake Washington.
-
-
 
 <b> Project Background: </b>
 
 <ul>
 
 <li>    88 samples: (4 replicates of high oxygen + 4 replicates of low oxygen) * 11 samples per replicate. 
-
 <li>    Sequenced for 11 weeks:  Weeks 4 - 14. 
-
 <li>    Oxygen conditions were switched for the last 4 samples. 
-
 <li>    Organisms "taxonomy" is described by: Kingdom, Phylum, Class	Order, Family, Genus
 
 </ul>
-
-
 
 Visit our:
 
@@ -34,25 +25,14 @@ Visit our:
 
 </ul>
 
-
-
 <b> Tools used in this project: </b>
 
-
-
-|<p align="center"> Name| <p align="center">Source package | <p align="center">Description | <p align="center"> Output  
-|
-| ----------------------- |:--------------------------------:| -----------------------------:| -------------------------: |
-|  
-<p align="left"> Dynamic Mode Decomposition (DMD)| <p align="center">Python modred|<p align="left"> Dimensionality reduction algorithm for a time series of data that computes a set of modes each of which is associated with a fixed oscillation frequency and decay/growth rate | <p align="left">Matrix of interaction values A for every sample, either computed for every time step or bulked over time |
-| 
-<p align="left">  NetworkX| <p align="center"> NetworkX|<p align="left">Software package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks|<p align="left"> Classic graphs, random graphs, and synthetic networks with any kind of node (e.g. text, images, XML records) and edges holding arbitrary data (e.g. weights, time-series) |
-| 
-<p align="left">  Density-based spatial clustering of applications with noise (DBSCAN)| <p align="center"> Python scikit-learn| <p align="left">Density-based data clustering algorithm that groups together points that are closely packed together, marking as outliers points that lie alone in low-density regions| <p align="left">Clusters of data points with performance metrics|
-|  
-<p align="left"> Gaussian Mixture Models (GMM)|   <p align="center"> Python scikit-learn|<p align="left">Parametric probability density function that generates all data points from weighted sum of Gaussian component densities with unknown parameters|  <p align="left">Clusters of data points with performance metrics|
-
-
+|<p align="center"> Name| <p align="center">Source package | <p align="center">Description | <p align="center"> Output|
+| ----------------------- |:--------------------------------:| -----------------------------:| -------------------------: ||  
+<p align="left"> Dynamic Mode Decomposition (DMD)| <p align="center">Python modred|<p align="left"> Dimensionality reduction algorithm for a time series of data that computes a set of modes each of which is associated with a fixed oscillation frequency and decay/growth rate | <p align="left">Matrix of interaction values A for every sample, either computed for every time step or bulked over time || 
+<p align="left">  NetworkX| <p align="center"> NetworkX|<p align="left">Software package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks|<p align="left"> Classic graphs, random graphs, and synthetic networks with any kind of node (e.g. text, images, XML records) and edges holding arbitrary data (e.g. weights, time-series) || 
+<p align="left">  Density-based spatial clustering of applications with noise (DBSCAN)| <p align="center"> Python scikit-learn| <p align="left">Density-based data clustering algorithm that groups together points that are closely packed together, marking as outliers points that lie alone in low-density regions| <p align="left">Clusters of data points with performance metrics||  
+<p align="left"> Gaussian Mixture Models (GMM)|   <p align="center"> Python scikit-learn|<p align="left">Parametric probability density function that generates all data points from weighted sum of Gaussian component densities with unknown parameters|  <p align="left">Clusters of data points with performance metrics||
 
 <b> Packages and libraries used in this project: </b>
 <ul>
@@ -60,43 +40,30 @@ Visit our:
 <li> <a href = "https://pythonhosted.org/modred/"> Modred </a>
 <li> <a href = "http://scikit-learn.org/stable/"> Scikit-learn </a>
 <li> <a href = "https://networkx.github.io/"> NetworkX </a>
-
 <li> <a href = "http://pandas.pydata.org/"> Pandas </a>
 <li> <a href = "http://matplotlib.org/index.html"> Matplotlib </a>
 <li> <a href = "https://stanford.edu/~mwaskom/software/seaborn/"> Seaborn </a>
 
 </ul>
 
-
-
 <b> Directory Structure:
 
 <img src="https://raw.githubusercontent.com/JanetMatsen/bacteriopop/master/maker_files/directory_structure.png" alt="Bacteriopop directory structure">
 </b>
-
-
 
 <b> Next Steps: </b>
 
 <ol>
 
 <li>    Make one A matrix per sample per replicate (2*4*10 A matrices) & compare to the current results with one A per replicate.  
-
 <li>    Test normalization of data before finding the A matrices so total abundance doesn't dominate signal. Remove taxa with small abundances first. 
-
 <li>    Plot networks as node graphs now that data reduction tools are ready
-
 <li>    Train on a subset of the data and see how predictive it is for the rest
-
 <li>    Compare including vs omitting the last 4 samples of each series, which have the oxygen tension reversed. 
-
 <li>    Do multiple hypothesis corrections, and use this to guide the cutoff for plotting and further analysis. 
-
 <li>    Connect these mathematical results to our real biological questions. 
 
 </ol>
-
-
 
 <b> Why we chose the <a href = "http://www.apache.org/licenses/LICENSE-2.0"> Apache License 2.0 </a>: </b><br>
 
